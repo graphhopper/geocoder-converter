@@ -1,7 +1,8 @@
 package com.graphhopper.converter;
 
 import com.graphhopper.converter.health.NominatimHealthCheck;
-import com.graphhopper.converter.resources.ConverterResource;
+import com.graphhopper.converter.resources.ConverterResourceNominatim;
+import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
@@ -40,10 +41,17 @@ public class ConverterApplication extends Application<ConverterConfiguration>
         final Client client = new JerseyClientBuilder(environment).using(converterConfiguration.getJerseyClientConfiguration())
                 .build(getName());
 
-        final ConverterResource resource = new ConverterResource(
-                converterConfiguration.getNominatimUrl(),
-                client
-        );
+        if(converterConfiguration.isNominatim()) {
+            final ConverterResourceNominatim resource = new ConverterResourceNominatim(
+                    converterConfiguration.getNominatimUrl(), converterConfiguration.getNominatimEmail(), client);
+            environment.jersey().register(resource);
+        }
+        
+        if(converterConfiguration.isOpenCageData()) {
+            final ConverterResourceOpenCageData resource = new ConverterResourceOpenCageData(
+                    converterConfiguration.getOpenCageDataUrl(), converterConfiguration.getOpenCageDataKey(), client);
+            environment.jersey().register(resource);
+        }
 
         if(converterConfiguration.isHealthCheck()) 
         {
@@ -51,8 +59,5 @@ public class ConverterApplication extends Application<ConverterConfiguration>
                     new NominatimHealthCheck(converterConfiguration.getNominatimUrl(), client);
             environment.healthChecks().register("template", healthCheck);
         }
-
-        environment.jersey().register(resource);
-
     }
 }

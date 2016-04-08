@@ -7,10 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Robin Boldt
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NominatimResponse
+public class NominatimEntry
 {
-
-
     private long osmId;
 
     private double lat;
@@ -20,7 +18,7 @@ public class NominatimResponse
 
     private Address address;
 
-    public NominatimResponse( long osmId, double lat, double lon, String displayName, String country, String city )
+    public NominatimEntry( long osmId, double lat, double lon, String displayName, String country, String city )
     {
         this.osmId = osmId;
         this.lat = lat;
@@ -32,7 +30,7 @@ public class NominatimResponse
         address.setCity(city);
     }
 
-    public NominatimResponse()
+    public NominatimEntry()
     {
         this.address = new Address();
     }
@@ -98,7 +96,6 @@ public class NominatimResponse
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Address
     {
-
         public Address()
         {
         }
@@ -107,6 +104,7 @@ public class NominatimResponse
         private String city;
         private String town;
         private String village;
+        private String hamlet;
 
         public String getGHCity()
         {
@@ -118,7 +116,11 @@ public class NominatimResponse
             {
                 return town;
             }
-            return village;
+            if(village != null) 
+            {
+                return village;
+            }
+            return hamlet;
         }
 
         @JsonProperty
@@ -155,6 +157,18 @@ public class NominatimResponse
         public void setVillage( String village )
         {
             this.village = village;
+        }
+        
+         @JsonProperty
+        public String getHamlet()
+        {
+            return hamlet;
+        }
+
+        @JsonProperty
+        public void setHamlet( String hamlet )
+        {
+            this.hamlet = hamlet;
         }
 
         @JsonProperty

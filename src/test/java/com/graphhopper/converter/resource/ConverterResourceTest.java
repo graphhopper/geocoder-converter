@@ -19,10 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ConverterResourceTest
 {
-
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
-            new DropwizardAppRule<ConverterConfiguration>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+            new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
     @Test
     public void testHandle()
@@ -33,11 +32,10 @@ public class ConverterResourceTest
         client.property(ClientProperties.READ_TIMEOUT,    100000);
 
         Response response = client.target(
-                String.format("http://localhost:%d/search?q=berlin", RULE.getLocalPort()))
+                String.format("http://localhost:%d/nominatim?q=berlin", RULE.getLocalPort()))
                 .request()
                 .get();
 
         assertThat(response.getStatus()).isEqualTo(200);
     }
-
 }

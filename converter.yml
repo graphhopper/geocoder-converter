@@ -1,1 +1,7 @@
 nominatimUrl: http://nominatim.openstreetmap.org/search/
+nominatim: true
+nominatimEmail: 
+
+openCageDataUrl: https://api.opencagedata.com/geocode/v1/json
+openCageDataKey: 
+openCageData: false

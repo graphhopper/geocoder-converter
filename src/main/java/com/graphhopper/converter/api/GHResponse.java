@@ -7,9 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GHResponse
 {
-
-
-    private long osmId;
+    private Long osmId;
 
     private Point point;
 
@@ -75,13 +73,13 @@ public class GHResponse
     }
 
     @JsonProperty("osm_id")
-    public long getOsmId()
+    public Long getOsmId()
     {
         return osmId;
     }
 
     @JsonProperty("osm_id")
-    public void setOsmId( long osmId )
+    public void setOsmId( Long osmId )
     {
         this.osmId = osmId;
     }
