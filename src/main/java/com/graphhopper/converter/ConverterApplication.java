@@ -45,9 +45,12 @@ public class ConverterApplication extends Application<ConverterConfiguration>
                 client
         );
 
-        final NominatimHealthCheck healthCheck =
-                new NominatimHealthCheck(converterConfiguration.getNominatimUrl(), client);
-        environment.healthChecks().register("template", healthCheck);
+        if(converterConfiguration.isHealthCheck()) 
+        {
+            final NominatimHealthCheck healthCheck =
+                    new NominatimHealthCheck(converterConfiguration.getNominatimUrl(), client);
+            environment.healthChecks().register("template", healthCheck);
+        }
 
         environment.jersey().register(resource);
 

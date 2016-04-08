@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
  */
 public class ConverterConfiguration extends Configuration
 {
-
     //TODO Define as URL?
     @NotEmpty
     private String nominatimUrl = "http://nominatim.openstreetmap.org/search/";
@@ -21,6 +20,8 @@ public class ConverterConfiguration extends Configuration
     @Valid
     @NotNull
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+    
+    private boolean healthCheck = true;
 
 
     @JsonProperty
@@ -33,6 +34,18 @@ public class ConverterConfiguration extends Configuration
     public void setNominatimUrl( String url )
     {
         this.nominatimUrl = url;
+    }
+    
+    @JsonProperty
+    public boolean isHealthCheck()
+    {
+        return healthCheck;
+    }
+
+    @JsonProperty
+    public void setHealthCheck( boolean hc )
+    {
+        this.healthCheck = hc;
     }
 
 
