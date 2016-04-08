@@ -17,10 +17,10 @@ public class ConverterTest
     {
 
         // Build a Response
-        NominatimEntry nominatimResponse = new NominatimEntry(1, 1, 1, "test", "de", "Berlin");
+        NominatimEntry nominatimResponse = new NominatimEntry(1L, 1, 1, "test", "de", "Berlin");
         GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
-        assertEquals(1, ghResponse.getOsmId());
+        assertEquals(1L, (long) ghResponse.getOsmId());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
         assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
         assertEquals("test", ghResponse.getName());
@@ -33,7 +33,7 @@ public class ConverterTest
     {
         // Build a Response
         NominatimEntry nominatimResponse = new NominatimEntry();
-        nominatimResponse.setOsmId(1);
+        nominatimResponse.setOsmId(1L);
         nominatimResponse.setDisplayName("test");
         nominatimResponse.setLat(1);
         nominatimResponse.setLon(1);
@@ -41,7 +41,7 @@ public class ConverterTest
         nominatimResponse.getAddress().setCountry("gb");
         GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
-        assertEquals(1, ghResponse.getOsmId());
+        assertEquals(1L, (long)ghResponse.getOsmId());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
         assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
         assertEquals("test", ghResponse.getName());
