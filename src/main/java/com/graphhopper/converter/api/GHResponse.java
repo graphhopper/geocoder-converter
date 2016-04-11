@@ -1,11 +1,14 @@
 package com.graphhopper.converter.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Robin Boldt
  */
 public class GHResponse {
+
     private Long osmId;
 
     private Point point;
@@ -13,6 +16,7 @@ public class GHResponse {
     private String name;
     private String country;
     private String city;
+    private List<String> copyrights = new ArrayList<String>(5);
 
     public GHResponse(long osmId, double lat, double lng, String name, String country, String city) {
         this.osmId = osmId;
@@ -70,6 +74,21 @@ public class GHResponse {
     @JsonProperty("osm_id")
     public void setOsmId(Long osmId) {
         this.osmId = osmId;
+    }
+
+    @JsonProperty("copyrights")
+    public List<String> getCopyrights() {
+        return copyrights;
+    }
+
+    public GHResponse addCopyright(String cr) {
+        copyrights.add(cr);
+        return this;
+    }
+
+    @JsonProperty("copyrights")
+    public void setCopyrights(List<String> copyrights) {
+        this.copyrights = copyrights;
     }
 
     public class Point {

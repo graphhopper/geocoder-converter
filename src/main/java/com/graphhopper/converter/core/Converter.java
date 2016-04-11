@@ -13,7 +13,10 @@ import java.util.List;
 public class Converter {
 
     public static GHResponse convertFromNominatim(NominatimEntry response) {
-        return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getGHCity());
+        GHResponse rsp = new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(),
+                response.getAddress().getCountry(), response.getAddress().getGHCity());
+        rsp.addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        return rsp;
     }
 
     public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status) {
@@ -26,8 +29,10 @@ public class Converter {
     }
 
     public static GHResponse convertFromOpenCageData(OpenCageDataEntry response) {
-        return new GHResponse(1 /*TODO*/, response.getGeometry().lat, response.getGeometry().lng,
+        GHResponse rsp = new GHResponse(1 /*TODO*/, response.getGeometry().lat, response.getGeometry().lng,
                 response.getFormatted(), response.getComponents().country, response.getComponents().city);
+        rsp.addCopyright("OpenCageData").addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        return rsp;
     }
 
     public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status) {
