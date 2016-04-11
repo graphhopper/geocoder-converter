@@ -38,11 +38,19 @@ public class Converter {
             int index = url.indexOf("?");
             int index2 = url.indexOf("#");
             if (index > 0 && index2 > 0) {
-                if (url.charAt(index + 1) == 'w') {
+                char typeChar = url.charAt(index + 1);
+                if (typeChar == 'w') {
                     try {
                         // ?way=
                         osmId = Long.parseLong(url.substring(index + 5, index2));
                         type = "W";
+                    } catch (Exception ex) {
+                    }
+                } else if (typeChar == 'r') {
+                    try {
+                        // ?relation=
+                        osmId = Long.parseLong(url.substring(index + 10, index2));
+                        type = "R";
                     } catch (Exception ex) {
                     }
                 } else {
