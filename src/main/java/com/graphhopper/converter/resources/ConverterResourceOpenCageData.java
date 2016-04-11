@@ -42,7 +42,7 @@ public class ConverterResourceOpenCageData {
             @QueryParam("countrycode") @DefaultValue("") String countrycode,
             @QueryParam("bounds") @DefaultValue("") String bounds,
             @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
-            @QueryParam("find_way_id") @DefaultValue("false") boolean find_way_id            
+            @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id            
     ) {
         if (limit > 10) {
             limit = 10;
@@ -54,7 +54,7 @@ public class ConverterResourceOpenCageData {
                 queryParam("key", key).
                 queryParam("limit", limit);
 
-        if (!find_way_id) {
+        if (!find_osm_id) {
             target = target.queryParam("no_annotations", "1");
         }
 
