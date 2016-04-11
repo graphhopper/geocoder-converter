@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NominatimEntry {
+
     private long osmId;
+    private String osmType;
 
     private double lat;
     private double lon;
@@ -17,8 +19,9 @@ public class NominatimEntry {
 
     private Address address;
 
-    public NominatimEntry(long osmId, double lat, double lon, String displayName, String country, String city) {
+    public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city) {
         this.osmId = osmId;
+        this.osmType = type;
         this.lat = lat;
         this.lon = lon;
         this.displayName = displayName;
@@ -40,6 +43,25 @@ public class NominatimEntry {
     @JsonProperty("osm_id")
     public void setOsmId(long osmId) {
         this.osmId = osmId;
+    }
+
+    @JsonProperty("osm_type")
+    public String getOsmType() {
+        return osmType;
+    }
+
+    public String getGHOsmType() {
+        if (osmType == null) {
+            return null;
+        }
+
+        // convert node into N, way into W and relation into R
+        return osmType.toUpperCase().substring(0, 1);
+    }
+
+    @JsonProperty("osm_type")
+    public void setOsmType(String type) {
+        this.osmType = type;
     }
 
     @JsonProperty
@@ -82,6 +104,7 @@ public class NominatimEntry {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Address {
+
         public Address() {
         }
 

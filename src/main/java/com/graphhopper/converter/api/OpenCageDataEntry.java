@@ -10,8 +10,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OpenCageDataEntry {
 
     private String formatted;
+    private OCDAnnoations annotations;
     private OCDGeometry geometry;
     private OCDComponents components;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class OCDAnnoations {
+
+        public OCDAnnoations() {
+        }
+
+        @JsonProperty("OSM")
+        public OCDAnnotationOSM osm = new OCDAnnotationOSM();
+    }
+
+    public static class OCDAnnotationOSM {
+
+        public OCDAnnotationOSM() {
+        }
+
+        @JsonProperty("edit_url")
+        public String editUrl;
+        public String url;
+    }
 
     public static class OCDGeometry {
 
@@ -30,8 +51,6 @@ public class OpenCageDataEntry {
         public OCDComponents() {
         }
 
-        @JsonProperty("city")
-        public String city;
         @JsonProperty("country")
         public String country;
         @JsonProperty("country_code")
@@ -40,6 +59,28 @@ public class OpenCageDataEntry {
         public String county;
         @JsonProperty("state")
         public String state;
+
+        @JsonProperty("city")
+        public String city;
+        @JsonProperty("town")
+        public String town;
+        @JsonProperty("village")
+        public String village;
+        @JsonProperty("hamlet")
+        public String hamlet;
+
+        public String getGHCity() {
+            if (city != null) {
+                return city;
+            }
+            if (town != null) {
+                return town;
+            }
+            if (village != null) {
+                return village;
+            }
+            return hamlet;
+        }
     }
 
     public OpenCageDataEntry() {
@@ -81,5 +122,15 @@ public class OpenCageDataEntry {
     @JsonProperty("geometry")
     public void setGeometry(OCDGeometry geometry) {
         this.geometry = geometry;
+    }
+
+    @JsonProperty("annotations")
+    public OCDAnnoations getAnnotations() {
+        return annotations;
+    }
+
+    @JsonProperty("annotations")
+    public void setAnnotations(OCDAnnoations annotations) {
+        this.annotations = annotations;
     }
 }

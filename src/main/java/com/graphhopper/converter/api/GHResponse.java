@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Robin Boldt
  */
 public class GHResponse {
+
     private Long osmId;
+    private String osmType;
 
     private Point point;
 
@@ -14,8 +16,9 @@ public class GHResponse {
     private String country;
     private String city;
 
-    public GHResponse(long osmId, double lat, double lng, String name, String country, String city) {
+    public GHResponse(Long osmId, String type, double lat, double lng, String name, String country, String city) {
         this.osmId = osmId;
+        this.osmType = type;
         this.point = new Point(lat, lng);
         this.name = name;
         this.country = country;
@@ -70,6 +73,16 @@ public class GHResponse {
     @JsonProperty("osm_id")
     public void setOsmId(Long osmId) {
         this.osmId = osmId;
+    }
+
+    @JsonProperty("osm_type")
+    public String getOsmType() {
+        return osmType;
+    }
+
+    @JsonProperty("osm_type")
+    public void setOsmType(String type) {
+        this.osmType = type;
     }
 
     public class Point {

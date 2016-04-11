@@ -10,14 +10,20 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @author Robin Boldt
+ * This class requests the geocoding service from opencagedata.com
+ *
+ * @author Peter Karich
  */
 @Path("/opencagedata")
 @Produces(MediaType.APPLICATION_JSON)
 public class ConverterResourceOpenCageData {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConverterResourceOpenCageData.class);
     private final String url;
     private final String key;
     private final Client jerseyClient;
@@ -31,10 +37,12 @@ public class ConverterResourceOpenCageData {
     @GET
     @Timed
     public Response handle(@NotNull @QueryParam("q") String query,
-                           @QueryParam("limit") @DefaultValue("5") int limit,
-                           @QueryParam("locale") @DefaultValue("") String locale,
-                           @QueryParam("countrycode") @DefaultValue("") String countrycode,
-                           @QueryParam("bounds") @DefaultValue("") String bounds
+            @QueryParam("limit") @DefaultValue("5") int limit,
+            @QueryParam("locale") @DefaultValue("") String locale,
+            @QueryParam("countrycode") @DefaultValue("") String countrycode,
+            @QueryParam("bounds") @DefaultValue("") String bounds,
+            @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
+            @QueryParam("find_way_id") @DefaultValue("false") boolean find_way_id            
     ) {
         if (limit > 10) {
             limit = 10;
@@ -44,9 +52,15 @@ public class ConverterResourceOpenCageData {
                 target(url).
                 queryParam("q", query).
                 queryParam("key", key).
-                queryParam("no_annotations", "1").
-                // queryParam("pretty", "1").
-                        queryParam("limit", limit);
+                queryParam("limit", limit);
+
+        if (!find_way_id) {
+            target = target.queryParam("no_annotations", "1");
+        }
+
+        if (nominatim) {
+            target = target.queryParam("only_nominatim", "1");
+        }
 
         if (!locale.isEmpty()) {
             target = target.queryParam("language", locale);
@@ -60,8 +74,11 @@ public class ConverterResourceOpenCageData {
             target = target.queryParam("bounds", bounds);
         }
 
-        Response response = target.request().accept("application/json").
-                get();
+        StopWatch sw = new StopWatch();
+        sw.start();
+        Response response = target.request().accept("application/json").get();
+        sw.stop();
+        LOGGER.info("took:" + sw.getTime() / 1000f + " " + target.toString());
 
         OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
         return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status);

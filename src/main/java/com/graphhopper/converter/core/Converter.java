@@ -13,7 +13,7 @@ import java.util.List;
 public class Converter {
 
     public static GHResponse convertFromNominatim(NominatimEntry response) {
-        return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getGHCity());
+        return new GHResponse(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getGHCity());
     }
 
     public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status) {
@@ -26,8 +26,34 @@ public class Converter {
     }
 
     public static GHResponse convertFromOpenCageData(OpenCageDataEntry response) {
-        return new GHResponse(1 /*TODO*/, response.getGeometry().lat, response.getGeometry().lng,
-                response.getFormatted(), response.getComponents().country, response.getComponents().city);
+        Long osmId = -1L;
+        String type = "N";
+
+        // extract OSM id and type from OSM annotation
+        if (response.getAnnotations() != null && response.getAnnotations().osm != null && response.getAnnotations().osm.editUrl != null) {
+            String url = response.getAnnotations().osm.editUrl;
+            // skip nodeId;
+            int index = url.indexOf("?");
+            int index2 = url.indexOf("#");
+            if (index > 0 && index2 > 0) {
+                if (url.charAt(index + 1) == 'w') {
+                    try {
+                        // ?way=
+                        osmId = Long.parseLong(url.substring(index + 5, index2));
+                        type = "W";
+                    } catch (Exception ex) {
+                    }
+                } else {
+                    try {
+                        // ?node=
+                        osmId = Long.parseLong(url.substring(index + 6, index2));
+                    } catch (Exception ex) {
+                    }
+                }
+            }
+        }
+        return new GHResponse(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
+                response.getFormatted(), response.getComponents().country, response.getComponents().getGHCity());
     }
 
     public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status) {

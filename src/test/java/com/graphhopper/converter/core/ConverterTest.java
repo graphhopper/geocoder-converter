@@ -15,10 +15,13 @@ public class ConverterTest {
     public void testConvert() {
 
         // Build a Response
-        NominatimEntry nominatimResponse = new NominatimEntry(1L, 1, 1, "test", "de", "Berlin");
+        NominatimEntry nominatimResponse = new NominatimEntry(1L, "node", 1, 1, "test", "de", "Berlin");
+        assertEquals("N", nominatimResponse.getGHOsmType());
+
         GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
         assertEquals(1L, (long) ghResponse.getOsmId());
+        assertEquals("N", ghResponse.getOsmType());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
         assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
         assertEquals("test", ghResponse.getName());
