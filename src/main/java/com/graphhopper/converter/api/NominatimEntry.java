@@ -110,6 +110,7 @@ public class NominatimEntry {
 
         private String country;
         private String city;
+        private String state;
         private String town;
         private String village;
         private String hamlet;
@@ -175,6 +176,16 @@ public class NominatimEntry {
         @JsonProperty
         public void setTown(String town) {
             this.town = town;
+        }
+
+        @JsonProperty
+        public String getState() {
+            return state;
+        }
+
+        @JsonProperty
+        public void setState(String state) {
+            this.state = state;
         }
     }
 }

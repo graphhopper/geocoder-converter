@@ -1,11 +1,13 @@
 package com.graphhopper.converter.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 
 /**
  * @author Robin Boldt
  */
+// ignore serialization of fields that are null
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GHEntry {
 
     private Long osmId;
@@ -15,15 +17,17 @@ public class GHEntry {
 
     private String name;
     private String country;
-    private String city;    
+    private String city;
+    private String state;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
         this.name = name;
         this.country = country;
         this.city = city;
+        this.state = state;
     }
 
     @JsonProperty
@@ -46,6 +50,16 @@ public class GHEntry {
         this.country = country;
     }
 
+    @JsonProperty
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @JsonProperty
+    public String getState() {
+        return state;
+    }
+    
     @JsonProperty
     public String getCity() {
         return city;
