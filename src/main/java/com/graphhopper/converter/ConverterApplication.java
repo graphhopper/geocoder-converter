@@ -2,8 +2,10 @@ package com.graphhopper.converter;
 
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
+import com.graphhopper.converter.resources.ConverterResourceGisgraphy;
 import com.graphhopper.converter.resources.ConverterResourceNominatim;
 import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
+
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -13,10 +15,11 @@ import io.dropwizard.util.Duration;
 
 import javax.servlet.DispatcherType;
 import javax.ws.rs.client.Client;
+
 import java.util.EnumSet;
 
 /**
- * @author Robin Boldt
+ * @author Robin Boldt,David Masclet
  */
 public class ConverterApplication extends Application<ConverterConfiguration> {
 
@@ -27,7 +30,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
     @Override
     public String getName() {
-        return "graphhopper-nominatim-converter";
+        return "graphhopper-geocoder-converter";
     }
 
     @Override
@@ -58,6 +61,12 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         if (converterConfiguration.isOpenCageData()) {
             final ConverterResourceOpenCageData resource = new ConverterResourceOpenCageData(
                     converterConfiguration.getOpenCageDataUrl(), converterConfiguration.getOpenCageDataKey(), client);
+            environment.jersey().register(resource);
+        }
+        
+        if (converterConfiguration.isGisgraphy()) {
+            final ConverterResourceGisgraphy resource = new ConverterResourceGisgraphy(
+                    converterConfiguration.getGisgraphyGeocodingUrl(), converterConfiguration.getGisgraphyReverseGeocodingURL(),converterConfiguration.getGisgraphySearchURL(),converterConfiguration.getGisgraphyAPIKey(), client);
             environment.jersey().register(resource);
         }
 

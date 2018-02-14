@@ -1,26 +1,26 @@
 package com.graphhopper.converter.resource;
 
-import com.graphhopper.converter.ConverterApplication;
-import com.graphhopper.converter.ConverterConfiguration;
-import com.graphhopper.converter.api.GHEntry;
-import com.graphhopper.converter.api.GHResponse;
+import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.glassfish.jersey.client.ClientProperties;
-import org.junit.ClassRule;
-import org.junit.Test;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.glassfish.jersey.client.ClientProperties;
+import org.junit.ClassRule;
+import org.junit.Test;
+
+import com.graphhopper.converter.ConverterApplication;
+import com.graphhopper.converter.ConverterConfiguration;
+import com.graphhopper.converter.api.GHResponse;
 
 /**
  * @author Robin Boldt
  */
-public class ConverterResourceTest {
+public class ConverterResourceNominatimTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
