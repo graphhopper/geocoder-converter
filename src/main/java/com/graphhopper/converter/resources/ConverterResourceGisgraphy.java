@@ -185,9 +185,4 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		return target;
 	}
 
-	private void checkInvalidParameter(boolean queryType) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
