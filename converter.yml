@@ -1,9 +1,9 @@
-nominatimUrl: http://nominatim.openstreetmap.org/search/
-nominatimReverseUrl: http://nominatim.openstreetmap.org/reverse/
+nominatimURL: http://nominatim.openstreetmap.org/search/
+nominatimReverseURL: http://nominatim.openstreetmap.org/reverse/
 nominatim: true
 nominatimEmail: 
 
-openCageDataUrl: https://api.opencagedata.com/geocode/v1/json
+openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: 
 openCageData: false
 

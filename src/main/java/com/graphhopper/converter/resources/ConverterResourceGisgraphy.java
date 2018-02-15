@@ -24,23 +24,20 @@ import com.graphhopper.converter.core.Converter;
 public class ConverterResourceGisgraphy extends AbstractConverterResource {
 
 	// all webservices
-	public static final String ADDRESS_PARAMETER = "address";
-	public static final String LAT_PARAMETER = "lat";
-	public static final String LONG_PARAMETER = "lng";
-	public static final String COUNTRY_PARAMETER = "country";
-	public static final String RADIUS_PARAMETER = "radius";
-	public static final String DEFAULT_FORMAT = "json";
-	public static final String FORMAT_PARAMETER = "format";
-	public static final String APIKEY_PARAMETER = "apikey";
+	private static final String ADDRESS_PARAMETER = "address";
+	private static final String LAT_PARAMETER = "lat";
+	private static final String LONG_PARAMETER = "lng";
+	private static final String COUNTRY_PARAMETER = "country";
+	private static final String RADIUS_PARAMETER = "radius";
+	private static final String DEFAULT_FORMAT = "json";
+	private static final String FORMAT_PARAMETER = "format";
+	private static final String APIKEY_PARAMETER = "apikey";
 	// geocoding specid=fic
-	public static final String GEOCODING_LIMIT_PARAMETER = "limitnbresult";
+	private static final String GEOCODING_LIMIT_PARAMETER = "limitnbresult";
 	// search
-	public static final String SEARCH_LIMIT_PARAMETER = "to";
-	public static final String SEARCH_QUERY_PARAMETER = "q";
+	private static final String SEARCH_LIMIT_PARAMETER = "to";
+	private static final String SEARCH_QUERY_PARAMETER = "q";
 
-	public static final String REVERSE_QUERY_TYPE = "reverse";
-	public static final String GEOCODING_QUERY_TYPE = "geocoding";
-	public static final String AUTOCOMPLETE_QUERY_TYPE = "autocomplete";
 
 	private final String geocodingUrl;
 	private final String reverseGeocodingUrl;
@@ -61,23 +58,30 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 	@GET
 	@Timed
 	public Response handle(@QueryParam("q") @DefaultValue("") String query,
-			@QueryParam("lat") @DefaultValue("") String lat,
-			@QueryParam("lng") @DefaultValue("") String lng,
+			@QueryParam("point") @DefaultValue("") String point,
 			@QueryParam("radius") @DefaultValue("") String radius,
 			@QueryParam("country") @DefaultValue("") String country,
 			@QueryParam("limit") @DefaultValue("5") Integer limit,
-			@QueryParam("querytype") @DefaultValue("geocoding") String queryType) {
+			@QueryParam("reverse") @DefaultValue("false") boolean reverse,
+			@QueryParam("autocomplete") @DefaultValue("false") boolean autocomplete) {
 		limit = fixLimit(limit);
+		String lat = null;
+		String lng = null;
+		if (!point.isEmpty()){
+			String[] cords = point.split(",");
+			 lat = cords[0];
+			 lng = cords[1];
+		}
+		checkParameters(query, reverse, autocomplete, lat, lng);
 
 		WebTarget target;
-		if (queryType.equalsIgnoreCase(REVERSE_QUERY_TYPE)) {
+		if (reverse) {
 			target = buildReverseGeocodingTarget(query, lat, lng, radius,
 					country, limit);
-		} else if (queryType.equalsIgnoreCase(AUTOCOMPLETE_QUERY_TYPE)) {
+		} else if (autocomplete) {
 			target = buildAutocompleteTarget(query, lat, lng, radius, country,
 					limit);
 		} else {
-			queryType = GEOCODING_QUERY_TYPE;
 			target = buildGeocodingTarget(query, lat, lng, radius, country,
 					limit);
 		}
@@ -87,33 +91,42 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 				.getStatusInfo().getReasonPhrase());
 		failIfResponseNotSuccessful(target, status);
 
-		if (queryType.equalsIgnoreCase(GEOCODING_QUERY_TYPE)
-				|| queryType.equalsIgnoreCase(REVERSE_QUERY_TYPE)) {
-			GisgraphyGeocodingResult feed = response
-					.readEntity(GisgraphyGeocodingResult.class);
-			if (feed != null) {
+
+		try {
+			if (!autocomplete) {
+				GisgraphyGeocodingResult feed = response
+						.readEntity(GisgraphyGeocodingResult.class);
 				return Converter.convertFromGisgraphyList(feed.result, status);
-			} else {
-				LOGGER.error("There was an issue with the target "
-						+ target.getUri() + " the provider returned: "
-						+ status.code + " - " + status.message);
-				throw new BadRequestException(
-						"error deserializing geocoding feed");
 			}
-		} else if (queryType.equalsIgnoreCase(AUTOCOMPLETE_QUERY_TYPE)) {
-			GisgraphySearchResult feed = response
-					.readEntity(GisgraphySearchResult.class);
-			if (feed != null) {
+			else {
+				GisgraphySearchResult feed = response
+						.readEntity(GisgraphySearchResult.class);
 				return Converter.convertFromGisgraphySearchList(feed.getResponse(), status);
-			} else {
-				LOGGER.error("There was an issue with the target "
-						+ target.getUri() + " the provider returned: "
-						+ status.code + " - " + status.message);
-				throw new BadRequestException(
-						"error deserializing geocoding feed");
 			}
+		} catch (Exception e) {
+			LOGGER.error("There was an issue with the target "
+					+ target.getUri() + " the provider returned: "
+					+ status.code + " - " + status.message);
+			throw new BadRequestException(
+					"error deserializing geocoding feed");
 		}
-		return response;
+	}
+
+	protected void processFeedException(WebTarget target, Status status) {
+		
+	}
+
+	private void checkParameters(String query, boolean reverse, boolean autocomplete, String lat,String lng) {
+		if (query!=null && query.trim().isEmpty() && !reverse){
+			throw new BadRequestException("query is required in forward geoding request");
+		}
+		if (reverse && lat !=null && lat.trim().isEmpty() || lng !=null && lng.isEmpty()){
+			throw new BadRequestException("point is required in reverse geoding request");
+		}
+		if (reverse && autocomplete){
+			throw new BadRequestException("autocomplete is not available in reverse geocoding request, set reverse or autocomplete to false but not both");
+		}
+
 	}
 
 	private WebTarget buildGeocodingTarget(String query, String lat,
@@ -124,10 +137,10 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		if (!apiKey.isEmpty()) {
 			target = target.queryParam(APIKEY_PARAMETER, apiKey);
 		}
-		if (!lat.isEmpty()) {
+		if (lat!=null && !lat.isEmpty()) {
 			target = target.queryParam(LAT_PARAMETER, lat);
 		}
-		if (!lng.isEmpty()) {
+		if (lng != null && !lng.isEmpty()) {
 			target = target.queryParam(LONG_PARAMETER, lng);
 		}
 		if (!radius.isEmpty()) {
@@ -149,10 +162,10 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		if (!apiKey.isEmpty()) {
 			target = target.queryParam(APIKEY_PARAMETER, apiKey);
 		}
-		if (!lat.isEmpty()) {
+		if (lat!=null && !lat.isEmpty()) {
 			target = target.queryParam(LAT_PARAMETER, lat);
 		}
-		if (!lng.isEmpty()) {
+		if (lng!=null && !lng.isEmpty()) {
 			target = target.queryParam(LONG_PARAMETER, lng);
 		}
 		return target;
@@ -167,10 +180,10 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		if (!apiKey.isEmpty()) {
 			target = target.queryParam(APIKEY_PARAMETER, apiKey);
 		}
-		if (!lat.isEmpty()) {
+		if (lat!=null && !lat.isEmpty()) {
 			target = target.queryParam(LAT_PARAMETER, lat);
 		}
-		if (!lng.isEmpty()) {
+		if (lng!=null && !lng.isEmpty()) {
 			target = target.queryParam(LONG_PARAMETER, lng);
 		}
 		if (!radius.isEmpty()) {
@@ -184,5 +197,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		}
 		return target;
 	}
+
 
 }
