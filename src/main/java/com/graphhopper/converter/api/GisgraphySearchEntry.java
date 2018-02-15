@@ -13,7 +13,8 @@ import com.graphhopper.converter.data.CountryInfo;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GisgraphySearchEntry {
 
-	private static List<String> HOUSE_AFTER_STREETNAME_COUNTRYCODE = new ArrayList<String>() {
+
+	private static List<String> NAME_HOUSE_COUNTRYCODE = new ArrayList<String>() {
 		{
 			add("DE");
 			add("BE");
@@ -33,13 +34,12 @@ public class GisgraphySearchEntry {
 	};
 
 
+	
+
 	@JsonProperty("feature_id")
 	private long featureId;
-	
 	private double lat;
-	
 	private double lng;
-	
 	private String name;
 
 	@JsonProperty("country_code")
@@ -73,7 +73,6 @@ public class GisgraphySearchEntry {
 
 	@JsonProperty("house_number")
 	private String houseNumber;
-
 
 
 	public long getFeatureId() {
@@ -178,6 +177,9 @@ public class GisgraphySearchEntry {
 	}
 
 	public String getZipCode() {
+		if (isInZip!=null && isInZip.size()>0){
+			return isInZip.get(0);
+		}
 		if (zipCodes!=null && zipCodes.size()>0){
 			return zipCodes.get(0);
 		}
@@ -186,8 +188,8 @@ public class GisgraphySearchEntry {
 
 	@JsonProperty("label")
 	public String getLabel() {
-		StringBuffer addressFormated = new StringBuffer();
-		if (countryCode != null && HOUSE_AFTER_STREETNAME_COUNTRYCODE.contains(countryCode.toUpperCase())) {
+		StringBuilder addressFormated = new StringBuilder();
+		if (countryCode != null && NAME_HOUSE_COUNTRYCODE.contains(countryCode.toUpperCase())) {
 			if (name !=null){
 				addressFormated.append(name);
 			}
@@ -209,14 +211,36 @@ public class GisgraphySearchEntry {
 				addressFormated.append(", ").append(isInPlace);
 			}
 			if (isInZip!=null && isInZip.size()>0) {
-				addressFormated.append(", ").append(isInZip);
-			} 
+				addressFormated.append(", ").append(isInZip.get(0));
+			} else if (zipCodes !=null && zipCodes.size() > 0){
+				addressFormated.append(", ").append(zipCodes.get(0));
+			}
 			if (isIn!=null) {
 				addressFormated.append(", ").append(isIn);
 			}
 		}
 		return addressFormated.toString();
 
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GisgraphySearchEntry [featureId=");
+		builder.append(featureId);
+		builder.append(", ");
+		if (name != null) {
+			builder.append("name=");
+			builder.append(name);
+			builder.append(", ");
+		}
+		if (isIn != null) {
+			builder.append("isIn=");
+			builder.append(isIn);
+			builder.append(", ");
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

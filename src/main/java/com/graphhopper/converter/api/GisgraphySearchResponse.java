@@ -48,11 +48,4 @@ public class GisgraphySearchResponse {
 		public void setStart(int start) {
 			this.start = start;
 		}
-
-		@Override
-	    public String toString() {
-	        return "results:" + docs.size();
-	    }
-
-	
 }

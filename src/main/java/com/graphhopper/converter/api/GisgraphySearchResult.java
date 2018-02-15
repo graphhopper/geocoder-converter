@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class GisgraphySearchResult {
 
 
-	    private GisgraphySearchResponse response;
+		private GisgraphySearchResponse response;
 	    private GisgraphySearchResponseHeader responseHeader;
 		
 	    public GisgraphySearchResponse getResponse() {
@@ -27,8 +27,7 @@ public class GisgraphySearchResult {
 	    public void setResponseHeader(GisgraphySearchResponseHeader responseHeader) {
 			this.responseHeader = responseHeader;
 		}
-
-		@Override
+	    @Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
@@ -61,9 +60,5 @@ public class GisgraphySearchResult {
 				return false;
 			return true;
 		}
-	    
-	    
 
-
-	
 }
