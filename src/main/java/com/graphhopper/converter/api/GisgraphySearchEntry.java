@@ -75,6 +75,11 @@ public class GisgraphySearchEntry {
 	private String houseNumber;
 
 
+
+
+	private String label;
+
+
 	public long getFeatureId() {
 		return featureId;
 	}
@@ -188,41 +193,14 @@ public class GisgraphySearchEntry {
 
 	@JsonProperty("label")
 	public String getLabel() {
-		StringBuilder addressFormated = new StringBuilder();
-		if (countryCode != null && NAME_HOUSE_COUNTRYCODE.contains(countryCode.toUpperCase())) {
-			if (name !=null){
-				addressFormated.append(name);
-			}
-			if (houseNumber!=null){
-				addressFormated.append(" ").append(houseNumber);
-			}
-
-		} else {
-			if (houseNumber!=null) {
-				addressFormated.append(houseNumber).append(", ");
-			}
-			if (name !=null){
-				addressFormated.append(name);
-			}
-
-		}
-		if (isIn !=null || isInPlace!=null) {
-			if (isInPlace!=null) {
-				addressFormated.append(", ").append(isInPlace);
-			}
-			if (isInZip!=null && isInZip.size()>0) {
-				addressFormated.append(", ").append(isInZip.get(0));
-			} else if (zipCodes !=null && zipCodes.size() > 0){
-				addressFormated.append(", ").append(zipCodes.get(0));
-			}
-			if (isIn!=null) {
-				addressFormated.append(", ").append(isIn);
-			}
-		}
-		return addressFormated.toString();
-
+		return label;
 	}
 	
+	@JsonProperty("label")
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

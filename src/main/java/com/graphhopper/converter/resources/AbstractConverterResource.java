@@ -25,7 +25,7 @@ abstract class AbstractConverterResource {
 
     void checkInvalidParameter(boolean reverse, String query, String point) {
         if (reverse) {
-            if (point == null || point.isEmpty()) {
+            if (point == null || point.trim().isEmpty()) {
                 throw new BadRequestException("When setting reverse=true you have to pass the point parameter");
             }
             String[] cords = point.split(",");
@@ -44,7 +44,7 @@ abstract class AbstractConverterResource {
                 throw new BadRequestException("The coordinates of point need to be valid coordinates");
             }
         } else {
-            if (query == null || query.isEmpty()) {
+            if (query == null || query.trim().isEmpty()) {
                 throw new BadRequestException("q cannot be empty");
             }
         }

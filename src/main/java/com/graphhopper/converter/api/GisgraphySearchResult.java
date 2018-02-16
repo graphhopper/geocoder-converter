@@ -2,6 +2,7 @@ package com.graphhopper.converter.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
 /**
  * @author David Masclet
  */

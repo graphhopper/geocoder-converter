@@ -65,14 +65,16 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 			@QueryParam("reverse") @DefaultValue("false") boolean reverse,
 			@QueryParam("autocomplete") @DefaultValue("false") boolean autocomplete) {
 		limit = fixLimit(limit);
+		checkParameters(query, reverse, autocomplete, point);
+		
 		String lat = null;
-		String lng = null;
-		if (!point.isEmpty()){
+	    String lng = null;
+		if (point!=null && !point.isEmpty() && point.indexOf(",")>0){
 			String[] cords = point.split(",");
-			 lat = cords[0];
-			 lng = cords[1];
+         lat = cords[0];
+         lng = cords[1];
 		}
-		checkParameters(query, reverse, autocomplete, lat, lng);
+		
 
 		WebTarget target;
 		if (reverse) {
@@ -116,13 +118,8 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 		
 	}
 
-	private void checkParameters(String query, boolean reverse, boolean autocomplete, String lat,String lng) {
-		if (query!=null && query.trim().isEmpty() && !reverse){
-			throw new BadRequestException("query is required in forward geoding request");
-		}
-		if (reverse && lat !=null && lat.trim().isEmpty() || lng !=null && lng.isEmpty()){
-			throw new BadRequestException("point is required in reverse geoding request");
-		}
+	private void checkParameters(String query, boolean reverse, boolean autocomplete, String point) {
+		super.checkInvalidParameter(reverse,query,point);
 		if (reverse && autocomplete){
 			throw new BadRequestException("autocomplete is not available in reverse geocoding request, set reverse or autocomplete to false but not both");
 		}
