@@ -76,7 +76,7 @@ public class GisgraphySearchEntry {
 
 
 
-
+	@JsonProperty("label")
 	private String label;
 
 
