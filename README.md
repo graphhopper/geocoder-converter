@@ -1,6 +1,6 @@
 # GraphHopper Geocoder Converter
 
-Converts a geocoding response like from Nominatim or OpenCageData to a GraphHopper response.
+Converts a geocoding response like from Nominatim, Gisgraphy, or OpenCageData to a GraphHopper response.
 A user queries this API and the converter is then querying Nominatim getting the corresponding response and converting it to the GraphHopper response layout.
 
 [![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
@@ -116,6 +116,16 @@ The according GH Response for the above request would be:
 These examples are taken from:
 - https://graphhopper.com/api/1/docs/geocoding/#example-output-for-the-case-typejson
 - https://wiki.openstreetmap.org/wiki/Nominatim#Examples
+
+## Input parameters
+### For Gisgraphy, the converter accepts the following parameters: 
+* q (required for forward geocoding) : the text search query
+* point (required for reverse geocoding) : point to search arround for reverse geocoding or to do location bias for forward geocoding and auto-completion
+* radius : radius in meter to do search in a bounding circle
+* country : an iso-3166-2 country code (e.g : DE) filter the results to the specify country code
+* limit : limit the number of results
+* reverse : true or false, wether we do a reverse or forward geocoding search
+* autocomplete : true or false. wether we do an search for auto-completion.
 
 
 ## Starting the Server
