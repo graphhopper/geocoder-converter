@@ -111,11 +111,4 @@ public class ConverterResourceGisgraphyTest {
 
 	}
 
-
-
-
-
-
-
-
 }

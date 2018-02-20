@@ -11,14 +11,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class GisgraphyGeocodingResult {
 
 
-	    public String numFound;
-	    public List<GisgraphyAddressEntry> result;
-	    public Status status;
+    public String numFound;
+    public List<GisgraphyAddressEntry> result;
+    public Status status;
 
-	    @Override
-	    public String toString() {
-	        return "results:" + result.size();
-	    }
+    @Override
+    public String toString() {
+        return "results:" + result.size();
+    }
 
-	
+
 }

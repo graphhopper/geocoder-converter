@@ -11,64 +11,62 @@ import java.util.List;
  * @author Robin Boldt, David Masclet
  */
 public class Converter {
-	
-	public static GHEntry convertFromGisgraphyAddress(GisgraphyAddressEntry gisgraphyEntry) {
-		GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
-				gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
-				gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
-				gisgraphyEntry.getState(), gisgraphyEntry.getStreetName(),
-				gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
-		return rsp;
-	}
-	
-	public static GHEntry convertFromGisgraphySearch(GisgraphySearchEntry gisgraphyEntry) {
-		GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
-				gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null,
-				gisgraphyEntry.getCountry(), gisgraphyEntry.getIsIn(),
-				gisgraphyEntry.getAdm1Name(), gisgraphyEntry.getName(),
-				gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
-		return rsp;
-	}
 
-	public static Response convertFromGisgraphyList(
-			List<GisgraphyAddressEntry> gisgraphyEntries, Status status) {
-		if (gisgraphyEntries == null) {
-			if (status == null) {
-				status = new Status(500, "");
-			}
-			return createResponse(new GHResponse(), status);
-		} else {
-			GHResponse ghResponse = new GHResponse(gisgraphyEntries.size());
-			for (GisgraphyAddressEntry entry : gisgraphyEntries) {
-				ghResponse.add(convertFromGisgraphyAddress(entry));
-			}
+    public static GHEntry convertFromGisgraphyAddress(GisgraphyAddressEntry gisgraphyEntry) {
+        GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
+                gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
+                gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
+                gisgraphyEntry.getState(), gisgraphyEntry.getStreetName(),
+                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
+        return rsp;
+    }
 
-			ghResponse.addCopyright("OpenStreetMap")
-					.addCopyright("GraphHopper").addCopyright("Gisgraphy");
-			return createResponse(ghResponse, status);
-		}
-	}
-	
-	public static Response convertFromGisgraphySearchList(
-			GisgraphySearchResponse response, Status status) {
-		if (response == null) {
-			if (status == null) {
-				status = new Status(500, "");
-			}
-			return createResponse(new GHResponse(), status);
-		} else {
-			GHResponse ghResponse = new GHResponse(response.getDocs().size());
-			for (GisgraphySearchEntry entry : response.getDocs()) {
-				ghResponse.add(convertFromGisgraphySearch(entry));
-			}
+    public static GHEntry convertFromGisgraphySearch(GisgraphySearchEntry gisgraphyEntry) {
+        GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
+                gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null,
+                gisgraphyEntry.getCountry(), gisgraphyEntry.getIsIn(),
+                gisgraphyEntry.getAdm1Name(), gisgraphyEntry.getName(),
+                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
+        return rsp;
+    }
 
-			ghResponse.addCopyright("OpenStreetMap")
-					.addCopyright("GraphHopper").addCopyright("Gisgraphy");
-			return createResponse(ghResponse, status);
-		}
-	}
-	
-	
+    public static Response convertFromGisgraphyList(
+            List<GisgraphyAddressEntry> gisgraphyEntries, Status status) {
+        if (gisgraphyEntries == null) {
+            if (status == null) {
+                status = new Status(500, "");
+            }
+            return createResponse(new GHResponse(), status);
+        } else {
+            GHResponse ghResponse = new GHResponse(gisgraphyEntries.size());
+            for (GisgraphyAddressEntry entry : gisgraphyEntries) {
+                ghResponse.add(convertFromGisgraphyAddress(entry));
+            }
+
+            ghResponse.addCopyright("OpenStreetMap")
+            .addCopyright("GraphHopper").addCopyright("Gisgraphy");
+            return createResponse(ghResponse, status);
+        }
+    }
+
+    public static Response convertFromGisgraphySearchList(
+            GisgraphySearchResponse response, Status status) {
+        if (response == null) {
+            if (status == null) {
+                status = new Status(500, "");
+            }
+            return createResponse(new GHResponse(), status);
+        } else {
+            GHResponse ghResponse = new GHResponse(response.getDocs().size());
+            for (GisgraphySearchEntry entry : response.getDocs()) {
+                ghResponse.add(convertFromGisgraphySearch(entry));
+            }
+
+            ghResponse.addCopyright("OpenStreetMap")
+            .addCopyright("GraphHopper").addCopyright("Gisgraphy");
+            return createResponse(ghResponse, status);
+        }
+    }
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
         GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
@@ -160,8 +158,4 @@ public class Converter {
                     build();
         }
     }
-
-	
-
-
 }
