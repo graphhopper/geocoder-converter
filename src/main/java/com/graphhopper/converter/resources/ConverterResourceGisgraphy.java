@@ -126,7 +126,7 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
     private WebTarget buildGeocodingTarget(String query, String lat,
             String lng, String radius, String country, int limit) {
         WebTarget target = buildBaseTarget(lat, lng, geocodingUrl)
-                .queryParam(ADDRESS_PARAMETER, query);;
+                .queryParam(ADDRESS_PARAMETER, query);
                 target = addRadiusAndCountryToTarget(radius, country, target);
                 if (limit >0) {
                     target = target.queryParam(GEOCODING_LIMIT_PARAMETER, limit);
@@ -138,8 +138,8 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
 
     private WebTarget buildAutocompleteTarget(String query, String lat,
             String lng, String radius, String country, int limit) {
-        WebTarget target = buildBaseTarget(lat, lng, searchURL);
-        target.queryParam(SEARCH_QUERY_PARAMETER, query)
+        WebTarget target = buildBaseTarget(lat, lng, searchURL)
+                .queryParam(SEARCH_QUERY_PARAMETER, query)
         .queryParam("suggest", "true");
         target = addRadiusAndCountryToTarget(radius, country, target);
         if (limit >0) {

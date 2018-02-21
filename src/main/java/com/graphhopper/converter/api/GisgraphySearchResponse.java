@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GisgraphySearchResponse {
 
-
     private Integer numFound = 0;
     private List<GisgraphySearchEntry> docs = new ArrayList<GisgraphySearchEntry>();
     private float maxScore = 0f;

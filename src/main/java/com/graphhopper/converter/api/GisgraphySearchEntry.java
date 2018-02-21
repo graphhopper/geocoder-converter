@@ -51,11 +51,8 @@ public class GisgraphySearchEntry {
     @JsonProperty("house_number")
     private String houseNumber;
 
-
-
     @JsonProperty("label")
     private String label;
-
 
     public long getFeatureId() {
         return featureId;
@@ -146,7 +143,6 @@ public class GisgraphySearchEntry {
         }
         return null;
     }
-
 
     @JsonProperty("house_number")
     public String getHouseNumber() {
