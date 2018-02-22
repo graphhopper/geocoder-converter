@@ -1,8 +1,8 @@
 # GraphHopper Geocoder Converter
 
 Converts a geocoding response from Nominatim, Gisgraphy, or OpenCageData to a GraphHopper geocoding response.
-This makes it easy to use different geocoders using the same interface.
-A user queries this API and the converter is then querying the geocoding provider getting the corresponding response and converting it to the GraphHopper response format.
+The geocoding converter makes it easy to use different geocoders using the same interface.
+A user queries the converter and the converter then queries the geocoding provider getting the corresponding response and converting it to the GraphHopper response format.
 
 [![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
 
@@ -11,9 +11,9 @@ A user queries this API and the converter is then querying the geocoding provide
 The goal of this project is to use different geocoders using the [GraphHopper Geocoding API](https://graphhopper.com/api/1/docs/geocoding/).
 GraphHopper provides a hosted version of the geocoding converter via the GraphHopper Geocoding API.
 You can select which service is used by attaching `provider=[PROVIDER_NAME]` to your geocoding query.
-All providers provide basic geocoding functions, but all provide different features, allow to use some additional parameters or don't support some of the parameters of the default provider of the GraphHopper Geocoding API.
+All providers provide basic geocoding functions, but all provide different features, allow to use some additional parameters, or don't support some of the parameters of the default provider of the GraphHopper Geocoding API.
 If a parameter is missing, please feel free to open an issue or a pull request to add it. 
-
+    
 ### Geocoding (forward)
 
 A sample geocoding query against the GraphHopper Geocoding API looks like this:
@@ -64,41 +64,39 @@ https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?for
 
 looks like this
 ```json
-[
-    {
-        "address": {
-            "city": "Berlin",
-            "city_district": "Mitte",
-            "construction": "Unter den Linden",
-            "continent": "European Union",
-            "country": "Deutschland",
-            "country_code": "de",
-            "house_number": "1",
-            "neighbourhood": "Scheunenviertel",
-            "postcode": "10117",
-            "public_building": "Kommandantenhaus",
-            "state": "Berlin",
-            "suburb": "Mitte"
-        },
-        "boundingbox": [
-            "52.5170783996582",
-            "52.5173187255859",
-            "13.3975105285645",
-            "13.3981599807739"
-        ],
-        "class": "amenity",
-        "display_name": "Kommandantenhaus, 1, Unter den Linden, Scheunenviertel, Mitte, Berlin, 10117, Deutschland, European Union",
-        "importance": 0.73606775332943,
-        "lat": "52.51719785",
-        "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
-        "lon": "13.3978352028938",
-        "osm_id": "15976890",
-        "osm_type": "way",
-        "place_id": "30848715",
-        "svg": "M 13.397511 -52.517283599999999 L 13.397829400000001 -52.517299800000004 13.398131599999999 -52.517315099999998 13.398159400000001 -52.517112099999999 13.3975388 -52.517080700000001 Z",
-        "type": "public_building"
-    }
-]
+{
+    "address": {
+        "city": "Berlin",
+        "city_district": "Mitte",
+        "construction": "Unter den Linden",
+        "continent": "European Union",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "1",
+        "neighbourhood": "Scheunenviertel",
+        "postcode": "10117",
+        "public_building": "Kommandantenhaus",
+        "state": "Berlin",
+        "suburb": "Mitte"
+    },
+    "boundingbox": [
+        "52.5170783996582",
+        "52.5173187255859",
+        "13.3975105285645",
+        "13.3981599807739"
+    ],
+    "class": "amenity",
+    "display_name": "Kommandantenhaus, 1, Unter den Linden, Scheunenviertel, Mitte, Berlin, 10117, Deutschland, European Union",
+    "importance": 0.73606775332943,
+    "lat": "52.51719785",
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
+    "lon": "13.3978352028938",
+    "osm_id": "15976890",
+    "osm_type": "way",
+    "place_id": "30848715",
+    "svg": "M 13.397511 -52.517283599999999 L 13.397829400000001 -52.517299800000004 13.398131599999999 -52.517315099999998 13.398159400000001 -52.517112099999999 13.3975388 -52.517080700000001 Z",
+    "type": "public_building"
+}
 ```
 
 ### OpenCageData
@@ -122,7 +120,7 @@ The geocoding converter supports the following additional OCD parameters, please
 The geocoding converter supports the following additional Gisgraphy parameters, please consult the Gisgraphy documentation to find out more details about the parameter: 
 - `radius`: radius in meter to do search in a bounding circle
 - `country`: an iso-3166-2 country code (e.g : DE) filter the results to the specify country code
-- `autocomplete`: true or false. wether we do an search for auto-completion. Autocomplete is not available for reverse queries.
+- `autocomplete`- boolean: if true, the search is optimized for autocompletion, if false the geocoder will try to find exact matches. Autocomplete is not available for reverse queries.
 
 **Gisgraphy does not support the locale parameter**
 
