@@ -132,22 +132,22 @@ Gisgraphy does not return tags from OSM.
 
 ```json
 {
-    id: 5128581,
-    lng: -74.00596618652344,
-    lat: 40.714271545410156,
-    name: "New York City",
-    zipCode: "10001",
-    city: "New York City",
-    state: "New York",
-    countryCode: "US",
-    geocodingLevel: "CITY",
-    adm1Name: "New York",
-    adm2Name: "New York City",
-    adm3Name: "New York County",
-    formatedFull: "New York City, New York County, New York City, New York (NY)",
-    formatedPostal: "New York City, 10001",
-    score: 97.7906,
-    sourceId: 175905,
+    "id": 5128581,
+    "lng": -74.00596618652344,
+    "lat": 40.714271545410156,
+    "name": "New York City",
+    "zipCode": "10001",
+    "city": "New York City",
+    "state": "New York",
+    "countryCode": "US",
+    "geocodingLevel": "CITY",
+    "adm1Name": "New York",
+    "adm2Name": "New York City",
+    "adm3Name": "New York County",
+    "formatedFull": "New York City, New York County, New York City, New York (NY)",
+    "formatedPostal": "New York City, 10001",
+    "score": 97.7906,
+    "sourceId": 175905
 }
 ```
 
