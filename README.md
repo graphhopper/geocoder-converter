@@ -1,55 +1,69 @@
 # GraphHopper Geocoder Converter
 
-Converts a geocoding response like from Nominatim, Gisgraphy, or OpenCageData to a GraphHopper response.
-A user queries this API and the converter is then querying Nominatim getting the corresponding response and converting it to the GraphHopper response layout.
+Converts a geocoding response from Nominatim, Gisgraphy, or OpenCageData to a GraphHopper geocoding response.
+This makes it easy to use different geocoders using the same interface.
+A user queries this API and the converter is then querying the geocoding provider getting the corresponding response and converting it to the GraphHopper response format.
 
 [![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
 
-## Query Interface
+## API
+
+The goal of this project is to use different geocoders using the [GraphHopper Geocoding API](https://graphhopper.com/api/1/docs/geocoding/).
+GraphHopper provides a hosted version of the geocoding converter via the GraphHopper Geocoding API.
+You can select which service is used by attaching `provider=[PROVIDER_NAME]` to your geocoding query.
+All providers provide basic geocoding functions, but all provide different features, allow to use some additional parameters or don't support some of the parameters of the default provider of the GraphHopper Geocoding API.
+If a parameter is missing, please feel free to open an issue or a pull request to add it. 
 
 ### Geocoding (forward)
 
-The service should be queried like:
+A sample geocoding query against the GraphHopper Geocoding API looks like this:
 ```
-https://graphhopper.com/api/1/search?q=berlin[&NOMINATIM_PARAMETER]&key=[YOUR_KEY]
-```
-
-All parameters are piped to Nominatim (probably some will be excluded for performance?).
-
-A sample request would be:
-```
-https://graphhopper.com/api/1/search?q=Unter%20den%20Linden&city=berlin
+https://graphhopper.com/api/1/search?q=berlin&key=[YOUR_KEY]
 ```
 
-This request would be wrapped to:
+This query will be translated to the following queries:
 ```
-https://nominatim.openstreetmap.org/search/Unter%20den%20Linden?city=berlin&format=json&addressdetails=1
+https://nominatim.openstreetmap.org/search/berlin?format=json&addressdetails=1
+https://api.opencagedata.com/geocode/v1/json?q=berlin
+https://services.gisgraphy.com/geocoding/search?address=berlin&format=json
 ```
-
-The `format=json` and `addressdetails=1` are added to every request.
 
 ### Reverse Geocoding
 
-A sample request would be:
+A simple reverse geocoding query against the GraphHopper Geocoding API looks like this:
 ```
 https://graphhopper.com/api/1/geocode?point=52.5487429714954,-1.81602098644987&reverse=true&key=[YOUR_KEY]
 ```
 
-The request would be wrapped to:
+This query will be translated to the following queries:
 ```
-https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
+https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&addressdetails=1
+https://api.opencagedata.com/geocode/v1/json?q=52.5487429714954%2C-1.81602098644987
+https://services.gisgraphy.com/reversegeocoding/search?format=json&lat=52.5487429714954&lng=-1.81602098644987
 ```
 
-## Nominatim Response
+## Providers
+
+### Nominatim 
+
+You can find out more about Nominatim [here](https://wiki.openstreetmap.org/wiki/Nominatim#Examples).
+
+**Parameters**
+
+The geocoding converter supports the following additional Nominatim parameters, please consult the Nominatim documentation to find out detail about the parameter:
+- `viewbox`
+- `viewboxlbrt`
+- `bounded` 
+
+**Response**
 
 A sample Nominatim Response for 
 ```
 https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
 ```
 
-
 looks like this
-```
+```json
 [
     {
         "address": {
@@ -87,46 +101,55 @@ looks like this
 ]
 ```
 
-## GraphHopper Response
+### OpenCageData
 
-The according GH Response for the above request would be:
-```
+You can find out more about OpenCageData [here](https://geocoder.opencagedata.com/api).
+
+**Parameters**
+
+The geocoding converter supports the following additional OCD parameters, please consult the OCD documentation to find out detail about the parameter:
+- `countrycode`
+- `bounds`
+- `nominatim` - boolean: this parameter is converted to the `only_nominatim` parameter of OCD 
+- `find_osm_id` - boolean: this parameter is true by default, if you pass false this will be converted to the `no_annotations` call of OCD.
+
+**Response**
+
+~~OpenCageData responses can easily exceed 100 lines, therefore we decided not to include an example~~
+
+### Gisgraphy
+
+The geocoding converter supports the following additional Gisgraphy parameters, please consult the Gisgraphy documentation to find out more details about the parameter: 
+- `radius`: radius in meter to do search in a bounding circle
+- `country`: an iso-3166-2 country code (e.g : DE) filter the results to the specify country code
+- `autocomplete`: true or false. wether we do an search for auto-completion. Autocomplete is not available for reverse queries.
+
+**Gisgraphy does not support the locale parameter**
+
+**Response**
+
+Gisgraphy does not return tags from OSM.
+
+```json
 {
-  "hits": [
-    {
-      "point": {
-        "lat": 52.51719785,
-        "lng": 13.3978352028938
-      },      
-      "osm_id": "15976890",
-      "name": "Kommandantenhaus, 1, Unter den Linden, Scheunenviertel, Mitte, Berlin, 10117, Deutschland, European Union",
-      "country": "Deutschland",
-      "city": "Berlin"
-    }
-  ],
-  "copyrights": [
-    "OpenStreetMap",
-    "GraphHopper"
-  ]
-  
+    id: 5128581,
+    lng: -74.00596618652344,
+    lat: 40.714271545410156,
+    name: "New York City",
+    zipCode: "10001",
+    city: "New York City",
+    state: "New York",
+    countryCode: "US",
+    geocodingLevel: "CITY",
+    adm1Name: "New York",
+    adm2Name: "New York City",
+    adm3Name: "New York County",
+    formatedFull: "New York City, New York County, New York City, New York (NY)",
+    formatedPostal: "New York City, 10001",
+    score: 97.7906,
+    sourceId: 175905,
 }
-
 ```
-
-These examples are taken from:
-- https://graphhopper.com/api/1/docs/geocoding/#example-output-for-the-case-typejson
-- https://wiki.openstreetmap.org/wiki/Nominatim#Examples
-
-## Input parameters
-### For Gisgraphy, the converter accepts the following parameters: 
-* q (required for forward geocoding) : the text search query
-* point (required for reverse geocoding) : point to search arround for reverse geocoding or to do location bias for forward geocoding and auto-completion
-* radius : radius in meter to do search in a bounding circle
-* country : an iso-3166-2 country code (e.g : DE) filter the results to the specify country code
-* limit : limit the number of results
-* reverse : true or false, wether we do a reverse or forward geocoding search
-* autocomplete : true or false. wether we do an search for auto-completion.
-
 
 ## Starting the Server
 
