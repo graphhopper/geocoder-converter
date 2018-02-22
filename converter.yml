@@ -1,5 +1,5 @@
-nominatimURL: http://nominatim.openstreetmap.org/search/
-nominatimReverseURL: http://nominatim.openstreetmap.org/reverse/
+nominatimURL: https://nominatim.openstreetmap.org/search/
+nominatimReverseURL: https://nominatim.openstreetmap.org/reverse/
 nominatim: true
 nominatimEmail: 
 

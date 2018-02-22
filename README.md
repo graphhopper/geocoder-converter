@@ -23,7 +23,7 @@ https://graphhopper.com/api/1/search?q=Unter%20den%20Linden&city=berlin
 
 This request would be wrapped to:
 ```
-http://nominatim.openstreetmap.org/search/Unter%20den%20Linden?city=berlin&format=json&addressdetails=1
+https://nominatim.openstreetmap.org/search/Unter%20den%20Linden?city=berlin&format=json&addressdetails=1
 ```
 
 The `format=json` and `addressdetails=1` are added to every request.
@@ -37,14 +37,14 @@ https://graphhopper.com/api/1/geocode?point=52.5487429714954,-1.81602098644987&r
 
 The request would be wrapped to:
 ```
-http://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
+https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
 ```
 
 ## Nominatim Response
 
 A sample Nominatim Response for 
 ```
-http://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
+https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
 ```
 
 

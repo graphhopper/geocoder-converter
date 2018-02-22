@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 public class ConverterConfiguration extends Configuration {
 
     @NotEmpty
-    private String nominatimURL = "http://nominatim.openstreetmap.org/search/";
+    private String nominatimURL = "https://nominatim.openstreetmap.org/search/";
     @NotEmpty
-    private String nominatimReverseURL = "http://nominatim.openstreetmap.org/reverse/";
+    private String nominatimReverseURL = "https://nominatim.openstreetmap.org/reverse/";
     private String nominatimEmail = "";
 
     private String openCageDataURL = "https://api.opencagedata.com/geocode/v1/json";
