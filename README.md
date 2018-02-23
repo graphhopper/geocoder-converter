@@ -126,7 +126,7 @@ The geocoding converter supports the following additional Gisgraphy parameters, 
 
 **Response**
 
-Gisgraphy does not return tags from OSM.
+Gisgraphy does not return tags from OSM and no Extent.
 
 ```json
 {

@@ -12,6 +12,7 @@ public class OpenCageDataEntry {
     private String formatted;
     private OCDAnnoations annotations;
     private OCDGeometry geometry;
+    private OCDBounds bounds;
     public OCDComponents components;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -35,6 +36,19 @@ public class OpenCageDataEntry {
         public String url;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class OCDBounds {
+
+        public OCDBounds() {
+        }
+
+        @JsonProperty
+        public OCDGeometry northeast;
+        @JsonProperty
+        public OCDGeometry southwest;
+
+    }
+
     public static class OCDGeometry {
 
         public OCDGeometry() {
@@ -47,7 +61,7 @@ public class OpenCageDataEntry {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class OCDComponents extends AbstractAddress{
+    public static class OCDComponents extends AbstractAddress {
 
         public OCDComponents() {
         }
@@ -63,12 +77,14 @@ public class OpenCageDataEntry {
     public OpenCageDataEntry() {
     }
 
-    public OpenCageDataEntry(double lat, double lon, String displayName, OCDComponents components) {
+    public OpenCageDataEntry(double lat, double lon, String displayName, OCDComponents components, OCDAnnoations annotations, OCDBounds bounds) {
         this.formatted = displayName;
         this.geometry = new OCDGeometry();
         this.geometry.lat = lat;
         this.geometry.lng = lon;
         this.components = components;
+        this.annotations = annotations;
+        this.bounds = bounds;
     }
 
     @JsonProperty("formatted")
@@ -109,5 +125,21 @@ public class OpenCageDataEntry {
     @JsonProperty("annotations")
     public void setAnnotations(OCDAnnoations annotations) {
         this.annotations = annotations;
+    }
+
+    @JsonProperty()
+    public OCDBounds getBounds() {
+        return bounds;
+    }
+
+    @JsonProperty()
+    public void setBounds(OCDBounds bounds) {
+        this.bounds = bounds;
+    }
+
+    public Extent getExtent() {
+        if(bounds == null)
+            return null;
+        return new Extent(bounds.southwest.lat, bounds.southwest.lng, bounds.northeast.lat, bounds.northeast.lng);
     }
 }

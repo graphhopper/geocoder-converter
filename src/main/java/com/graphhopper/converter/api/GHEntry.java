@@ -14,6 +14,7 @@ public class GHEntry {
     private String osmType;
 
     private Point point;
+    private Extent extent;
 
     private String name;
     private String country;
@@ -24,7 +25,7 @@ public class GHEntry {
     private String postcode;
     private String osmValue;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String street, String houseNumber, String postcode) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String street, String houseNumber, String postcode, Extent extent) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
@@ -36,10 +37,11 @@ public class GHEntry {
         this.houseNumber = houseNumber;
         this.postcode = postcode;
         this.osmValue = osmValue;
+        this.extent = extent;
     }
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address) {
-        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.getStreetName(), address.houseNumber, address.postcode);
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address, Extent extent) {
+        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.getStreetName(), address.houseNumber, address.postcode, extent);
     }
 
     public GHEntry(){}
@@ -152,6 +154,16 @@ public class GHEntry {
     @JsonProperty("osm_value")
     public void setOsmValue(String osmValue) {
         this.osmValue = osmValue;
+    }
+
+    @JsonProperty
+    public Extent getExtent() {
+        return this.extent;
+    }
+
+    @JsonProperty
+    public void setExtent(Extent extent) {
+        this.extent = extent;
     }
 
     public class Point {

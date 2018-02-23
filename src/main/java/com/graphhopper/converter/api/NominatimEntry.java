@@ -3,6 +3,8 @@ package com.graphhopper.converter.api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * @author Robin Boldt
  */
@@ -18,12 +20,14 @@ public class NominatimEntry {
     private String displayName;
     private String classString;
 
-    // This is not the omsType, but for example "restaurant" or "tertiary"
+    // This is not the osmType, but for example "restaurant" or "tertiary"
     private String type;
+
+    private List<Double> boundingbox;
 
     public Address address;
 
-    public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city) {
+    public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city, List<Double> boundingbox) {
         this.osmId = osmId;
         this.osmType = type;
         this.lat = lat;
@@ -33,6 +37,7 @@ public class NominatimEntry {
         this.address = new Address();
         address.country = country;
         address.city = city;
+        this.boundingbox = boundingbox;
     }
 
     public NominatimEntry() {
@@ -126,8 +131,25 @@ public class NominatimEntry {
         this.type = type;
     }
 
+    @JsonProperty
+    public List<Double> getBoundingbox() {
+        return this.boundingbox;
+    }
+
+    @JsonProperty
+    public void setBoundingbox(List<Double> boundingbox) {
+        this.boundingbox = boundingbox;
+    }
+
+    public Extent getExtent() {
+        if (this.boundingbox == null || this.boundingbox.size() < 4)
+            return null;
+        // the nominatim BBox is in minLat, maxLat, minLon, maxLon
+        return new Extent(boundingbox.get(0), boundingbox.get(2), boundingbox.get(1), boundingbox.get(3));
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Address extends AbstractAddress{
+    public class Address extends AbstractAddress {
 
         public Address() {
         }

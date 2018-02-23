@@ -151,7 +151,7 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         WebTarget target = jerseyClient.target(URL)
                 .queryParam(FORMAT_PARAMETER, DEFAULT_FORMAT);
 
-        if (!apiKey.isEmpty()) {
+        if (apiKey != null && !apiKey.isEmpty()) {
             target = target.queryParam(APIKEY_PARAMETER, apiKey);
         }
         if (lat!=null && !lat.isEmpty()) {

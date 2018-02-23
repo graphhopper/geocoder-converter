@@ -1,21 +1,22 @@
 package com.graphhopper.converter.resource;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.graphhopper.converter.ConverterApplication;
+import com.graphhopper.converter.ConverterConfiguration;
+import com.graphhopper.converter.api.GHResponse;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
-
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import com.graphhopper.converter.ConverterApplication;
-import com.graphhopper.converter.ConverterConfiguration;
-import com.graphhopper.converter.api.GHResponse;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
+import java.util.List;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Robin Boldt
@@ -40,6 +41,13 @@ public class ConverterResourceNominatimTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
         assertTrue(entry.getLocale().equals("en"));
+
+        // This might change in OSM and we might need to update this test then
+        List<Double> extent = entry.getHits().get(0).getExtent().getExtent();
+        assertEquals(extent.get(0), 13.2, .1);
+        assertEquals(extent.get(1), 52.3, .1);
+        assertEquals(extent.get(2), 13.5, .1);
+        assertEquals(extent.get(3), 52.6, .1);
     }
 
     @Test

@@ -17,7 +17,7 @@ public class Converter {
                 gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
                 gisgraphyEntry.getState(), gisgraphyEntry.getStreetName(),
-                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
+                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
 
@@ -26,7 +26,7 @@ public class Converter {
                 gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getIsIn(),
                 gisgraphyEntry.getAdm1Name(), gisgraphyEntry.getName(),
-                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode());
+                gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
 
@@ -44,7 +44,8 @@ public class Converter {
             }
 
             ghResponse.addCopyright("OpenStreetMap")
-            .addCopyright("GraphHopper").addCopyright("Gisgraphy");
+                    .addCopyright("GraphHopper")
+                    .addCopyright("Gisgraphy");
             return createResponse(ghResponse, status);
         }
     }
@@ -63,14 +64,15 @@ public class Converter {
             }
 
             ghResponse.addCopyright("OpenStreetMap")
-            .addCopyright("GraphHopper").addCopyright("Gisgraphy");
+                    .addCopyright("GraphHopper")
+                    .addCopyright("Gisgraphy");
             return createResponse(ghResponse, status);
         }
     }
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
         GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
-                response.getDisplayName(), response.getType(), response.getAddress());
+                response.getDisplayName(), response.getType(), response.getAddress(), response.getExtent());
         return rsp;
     }
 
@@ -80,7 +82,8 @@ public class Converter {
             ghResponse.add(convertFromNominatim(nominatimResponse));
         }
 
-        ghResponse.addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        ghResponse.addCopyright("OpenStreetMap")
+                .addCopyright("GraphHopper");
         if (!locale.isEmpty()) {
             ghResponse.setLocale(locale);
         }
@@ -124,7 +127,7 @@ public class Converter {
         }
 
         GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
-                response.getFormatted(), response.getComponents().type, response.getComponents());
+                response.getFormatted(), response.getComponents().type, response.getComponents(), response.getExtent());
 
         return rsp;
     }
@@ -136,7 +139,9 @@ public class Converter {
             ghResponse.add(convertFromOpenCageData(ocdResponse));
         }
 
-        ghResponse.addCopyright("OpenCageData").addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        ghResponse.addCopyright("OpenCageData")
+                .addCopyright("OpenStreetMap")
+                .addCopyright("GraphHopper");
         if (!locale.isEmpty()) {
             ghResponse.setLocale(locale);
         }
