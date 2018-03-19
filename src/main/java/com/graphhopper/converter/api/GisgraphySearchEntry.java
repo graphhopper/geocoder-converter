@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.graphhopper.converter.data.CountryInfo;
 
 /**
  * @author David Masclet
@@ -21,6 +20,8 @@ public class GisgraphySearchEntry {
 
     @JsonProperty("country_code")
     private String countryCode;
+    
+    private String country;
 
     @JsonProperty("is_in")
     private String isIn;
@@ -51,8 +52,11 @@ public class GisgraphySearchEntry {
     @JsonProperty("house_number")
     private String houseNumber;
 
+
+
     @JsonProperty("label")
     private String label;
+
 
     public long getFeatureId() {
         return featureId;
@@ -136,12 +140,12 @@ public class GisgraphySearchEntry {
         this.zipCodes = zipCodes;
     }
 
+    public void setCountry(String country){
+        this.country = country;
+    }
 
     public String getCountry() {
-        if (countryCode!=null){
-            return CountryInfo.countryLookupMap.get(countryCode.toUpperCase());
-        }
-        return null;
+       return country;
     }
 
     @JsonProperty("house_number")

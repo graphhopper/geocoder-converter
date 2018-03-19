@@ -1,7 +1,6 @@
 package com.graphhopper.converter.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.graphhopper.converter.data.CountryInfo;
 
 /**
  * @author David Masclet
@@ -18,6 +17,8 @@ public class GisgraphyAddressEntry {
     private long sourceId;
 
     private String countryCode;
+    
+    private String country;
 
     private String city;
 
@@ -143,10 +144,11 @@ public class GisgraphyAddressEntry {
     }
 
     public String getCountry() {
-        if (countryCode!=null){
-            return CountryInfo.countryLookupMap.get(countryCode.toUpperCase());
-        }
-        return null;
+        return country;
+    }
+    
+    public void setCountry(String country){
+        this.country = country;
     }
 
     public String getGeocodingLevel() {
