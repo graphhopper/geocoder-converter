@@ -17,6 +17,7 @@ import java.util.List;
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Robin Boldt
@@ -48,6 +49,24 @@ public class ConverterResourceNominatimTest {
         assertEquals(extent.get(1), 52.3, .1);
         assertEquals(extent.get(2), 13.5, .1);
         assertEquals(extent.get(3), 52.6, .1);
+    }
+
+    @Test
+    public void testIssue38() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testIssue38");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?q=berlin", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        // Get the raw json String to check the structure of the json
+        String responseString = response.readEntity(String.class);
+        assertTrue(responseString.contains("\"extent\":["));
+        assertFalse(responseString.contains("\"extent\":{\"extent\""));
     }
 
     @Test

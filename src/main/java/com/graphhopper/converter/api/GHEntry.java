@@ -2,6 +2,7 @@ package com.graphhopper.converter.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * @author Robin Boldt
@@ -14,6 +15,7 @@ public class GHEntry {
     private String osmType;
 
     private Point point;
+    @JsonUnwrapped
     private Extent extent;
 
     private String name;
