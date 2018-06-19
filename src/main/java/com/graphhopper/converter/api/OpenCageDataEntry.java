@@ -70,8 +70,6 @@ public class OpenCageDataEntry {
         public String type;
         @JsonProperty("country_code")
         public String countryCode;
-        @JsonProperty("county")
-        public String county;
     }
 
     public OpenCageDataEntry() {

@@ -166,4 +166,23 @@ public class ConverterResourceNominatimTest {
 
         assertThat(response.getStatus()).isEqualTo(400);
     }
+
+    @Test
+    public void testIssue50() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test issue 50");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        GHResponse entry = response.readEntity(GHResponse.class);
+
+        // OCD responds with "Seine-et-Marne", both seem to be interlinked: https://en.wikipedia.org/wiki/Fontainebleau
+        assertEquals("Fontainebleau", entry.getHits().get(0).getCounty());
+    }
 }

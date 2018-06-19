@@ -18,6 +18,8 @@ public abstract class AbstractAddress {
     @JsonProperty
     public String state;
     @JsonProperty
+    public String county;
+    @JsonProperty
     public String town;
     @JsonProperty
     public String village;
