@@ -35,9 +35,6 @@ public class GisgraphySearchEntry {
     @JsonProperty("adm1_name")
     private String adm1Name;
 
-    @JsonProperty("adm3_name")
-    private String adm3Name;
-
     @JsonProperty("zip_code")
     private List<String> zipCodes;
 
@@ -133,14 +130,6 @@ public class GisgraphySearchEntry {
 
     public void setAdm1Name(String adm1Name) {
         this.adm1Name = adm1Name;
-    }
-
-    public String getAdm3Name() {
-        return adm3Name;
-    }
-
-    public void setAdm3Name(String adm3Name) {
-        this.adm3Name = adm3Name;
     }
 
     public List<String> getZipCodes() {
