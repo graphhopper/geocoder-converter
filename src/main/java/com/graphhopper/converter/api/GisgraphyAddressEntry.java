@@ -36,8 +36,6 @@ public class GisgraphyAddressEntry {
 
     private String geocodingLevel;
 
-    private String adm3Name;
-
     public long getId() {
         return id;
     }
@@ -159,14 +157,6 @@ public class GisgraphyAddressEntry {
 
     public void setGeocodingLevel(String geocodingLevel) {
         this.geocodingLevel = geocodingLevel;
-    }
-
-    public String getAdm3Name() {
-        return adm3Name;
-    }
-
-    public void setAdm3Name(String adm3Name) {
-        this.adm3Name = adm3Name;
     }
 
 }

@@ -112,22 +112,4 @@ public class ConverterResourceGisgraphyTest {
 
     }
 
-    @Test
-    public void testIssue50() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test issue 50");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
-        Response response = client.target(
-                String.format("http://localhost:%d/gisgraphy?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
-                .request()
-                .get();
-
-        assertThat(response.getStatus()).isEqualTo(200);
-        GHResponse entry = response.readEntity(GHResponse.class);
-
-        assertEquals("Seine-et-Marne", entry.getHits().get(0).getCounty());
-    }
-
 }

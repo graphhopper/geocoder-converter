@@ -16,7 +16,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
-                gisgraphyEntry.getState(),  gisgraphyEntry.getAdm3Name(), gisgraphyEntry.getStreetName(),
+                gisgraphyEntry.getState(), null, gisgraphyEntry.getStreetName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
