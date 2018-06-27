@@ -1,23 +1,20 @@
 package com.graphhopper.converter.resource;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
+import com.graphhopper.converter.ConverterApplication;
+import com.graphhopper.converter.ConverterConfiguration;
+import com.graphhopper.converter.api.GHResponse;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import org.glassfish.jersey.client.ClientProperties;
+import org.junit.ClassRule;
+import org.junit.Ignore;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientProperties;
-import org.junit.ClassRule;
-import org.junit.Test;
-
-import com.graphhopper.converter.ConverterApplication;
-import com.graphhopper.converter.ConverterConfiguration;
-import com.graphhopper.converter.api.GHResponse;
+import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Robin Boldt
@@ -27,7 +24,7 @@ public class ConverterResourceGisgraphyTest {
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
-    @Test
+    @Ignore
     public void testHandleForward() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
 
@@ -54,7 +51,7 @@ public class ConverterResourceGisgraphyTest {
         assertTrue(entry.getHits().size() > 0);
     }
 
-    @Test
+    @Ignore
     public void testHandleReverse() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
 
@@ -72,7 +69,7 @@ public class ConverterResourceGisgraphyTest {
 
     }
 
-    @Test
+    @Ignore
     public void testHandleAutocomplete() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete client");
 
@@ -90,7 +87,7 @@ public class ConverterResourceGisgraphyTest {
 
     }
 
-    @Test
+    @Ignore
     public void testHandleAutocompleteWithReverseShouldThrows() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete-reverse client");
 

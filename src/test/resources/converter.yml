@@ -1,5 +1,5 @@
 nominatimURL: https://nominatim.openstreetmap.org/search/
 
 openCageDataURL: https://api.opencagedata.com/geocode/v1/json
-openCageDataKey: XXXXXXXX
+openCageDataKey: XXX
 openCageData: true

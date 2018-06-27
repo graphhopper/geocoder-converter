@@ -7,6 +7,7 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.ClientProperties;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -17,12 +18,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * In order to successfully run this class, you need to specify the ocdKey as environment variable, for example run:
+ * export OCD_KEY="My_Key"
+ *
  * @author Robin Boldt
  */
 public class ConverterResourceOpenCageDataTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+
+    private static String ocdKey = "SPECIFY_AS_ENVIRONMENT_VARIABLE";
+
+    @BeforeClass
+    public static void injectKeyFromEnvironment() {
+        String ocdKey = System.getenv("OCD_KEY");
+        if (ocdKey != null) {
+            ConverterResourceOpenCageDataTest.ocdKey = ocdKey;
+        }
+    }
 
     @Test
     public void testIssue50() {
@@ -32,7 +46,7 @@ public class ConverterResourceOpenCageDataTest {
         client.property(ClientProperties.READ_TIMEOUT, 100000);
 
         Response response = client.target(
-                String.format("http://localhost:%d/opencagedata?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
+                String.format("http://localhost:%d/opencagedata?point=48.4882,2.6996&reverse=true&ocd_key=" + ocdKey, RULE.getLocalPort()))
                 .request()
                 .get();
 
