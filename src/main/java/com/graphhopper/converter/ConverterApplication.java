@@ -9,6 +9,8 @@ import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.util.Duration;
@@ -34,7 +36,13 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ConverterConfiguration> bootstrap) {
-        // nothing to do yet
+        // Enable variable substitution with environment variables
+        bootstrap.setConfigurationSourceProvider(
+                new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
+                        new EnvironmentVariableSubstitutor(false)
+                )
+        );
+
     }
 
     @Override
@@ -65,7 +73,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
         if (converterConfiguration.isGisgraphy()) {
             final ConverterResourceGisgraphy resource = new ConverterResourceGisgraphy(
-                    converterConfiguration.getGisgraphyGeocodingURL(), converterConfiguration.getGisgraphyReverseGeocodingURL(),converterConfiguration.getGisgraphySearchURL(),converterConfiguration.getGisgraphyAPIKey(), client);
+                    converterConfiguration.getGisgraphyGeocodingURL(), converterConfiguration.getGisgraphyReverseGeocodingURL(), converterConfiguration.getGisgraphySearchURL(), converterConfiguration.getGisgraphyAPIKey(), client);
             environment.jersey().register(resource);
         }
 

@@ -28,16 +28,6 @@ public class ConverterResourceOpenCageDataTest {
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
-    private static String ocdKey = "SPECIFY_AS_ENVIRONMENT_VARIABLE";
-
-    @BeforeClass
-    public static void injectKeyFromEnvironment() {
-        String ocdKey = System.getenv("OCD_KEY");
-        if (ocdKey != null) {
-            ConverterResourceOpenCageDataTest.ocdKey = ocdKey;
-        }
-    }
-
     @Test
     public void testIssue50() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test issue 50");
@@ -46,7 +36,7 @@ public class ConverterResourceOpenCageDataTest {
         client.property(ClientProperties.READ_TIMEOUT, 100000);
 
         Response response = client.target(
-                String.format("http://localhost:%d/opencagedata?point=48.4882,2.6996&reverse=true&ocd_key=" + ocdKey, RULE.getLocalPort()))
+                String.format("http://localhost:%d/opencagedata?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
                 .request()
                 .get();
 
