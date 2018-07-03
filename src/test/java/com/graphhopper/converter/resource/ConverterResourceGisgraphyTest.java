@@ -8,7 +8,7 @@ import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.ClassRule;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
@@ -24,7 +24,7 @@ public class ConverterResourceGisgraphyTest {
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
-    @Ignore
+    @Test
     public void testHandleForward() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
 
@@ -51,7 +51,7 @@ public class ConverterResourceGisgraphyTest {
         assertTrue(entry.getHits().size() > 0);
     }
 
-    @Ignore
+    @Test
     public void testHandleReverse() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
 
@@ -69,7 +69,7 @@ public class ConverterResourceGisgraphyTest {
 
     }
 
-    @Ignore
+    @Test
     public void testHandleAutocomplete() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete client");
 
@@ -87,7 +87,7 @@ public class ConverterResourceGisgraphyTest {
 
     }
 
-    @Ignore
+    @Test
     public void testHandleAutocompleteWithReverseShouldThrows() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete-reverse client");
 

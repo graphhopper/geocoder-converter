@@ -4,13 +4,13 @@ nominatim: true
 nominatimEmail: 
 
 openCageDataURL: https://api.opencagedata.com/geocode/v1/json
-openCageDataKey: 
-openCageData: false
+openCageDataKey: ${OCD_KEY}
+openCageData: true
 
-gisgraphyGeocodingURL: https://premium2.gisgraphy.com/geocoding/
-gisgraphyReverseGeocodingURL:  https://premium2.gisgraphy.com/reversegeocoding/
-gisgraphySearchURL:  https://premium2.gisgraphy.com/fulltext/
-gisgraphyAPIKey:
+gisgraphyGeocodingURL: ${GIS_GEO_URL}
+gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
+gisgraphySearchURL:  ${GIS_SEARCH_URL}
+gisgraphyAPIKey: ${GIS_KEY}
 
 # e.g. to restrict for local access
 # ipWhiteList:"localhost,127.0.0.1"

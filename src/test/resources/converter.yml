@@ -3,3 +3,8 @@ nominatimURL: https://nominatim.openstreetmap.org/search/
 openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: ${OCD_KEY}
 openCageData: true
+
+gisgraphyGeocodingURL: ${GIS_GEO_URL}
+gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
+gisgraphySearchURL:  ${GIS_SEARCH_URL}
+gisgraphyAPIKey: ${GIS_KEY}
