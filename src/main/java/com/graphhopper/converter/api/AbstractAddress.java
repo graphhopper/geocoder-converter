@@ -17,6 +17,8 @@ public abstract class AbstractAddress {
     public String city;
     @JsonProperty
     public String state;
+    @JsonProperty("state_district")
+    public String stateDistrict;
     @JsonProperty
     public String county;
     @JsonProperty
@@ -74,10 +76,6 @@ public abstract class AbstractAddress {
             return cycleway;
         }
         return construction;
-    }
-
-    public String getCounty(){
-        return county;
     }
 
 }

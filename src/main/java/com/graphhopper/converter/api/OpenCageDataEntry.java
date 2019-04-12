@@ -70,16 +70,6 @@ public class OpenCageDataEntry {
         public String type;
         @JsonProperty("country_code")
         public String countryCode;
-        @JsonProperty("state_district")
-        public String stateDistrict;
-
-        @Override
-        public String getCounty(){
-            if (super.getCounty() != null){
-                return super.getCounty();
-            }
-            return stateDistrict;
-        }
     }
 
     public OpenCageDataEntry() {

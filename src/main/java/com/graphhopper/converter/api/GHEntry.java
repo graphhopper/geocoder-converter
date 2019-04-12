@@ -22,13 +22,14 @@ public class GHEntry {
     private String country;
     private String city;
     private String state;
+    private String stateDistrict;
     private String county;
     private String street;
     private String houseNumber;
     private String postcode;
     private String osmValue;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String county, String street, String houseNumber, String postcode, Extent extent) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String stateDistrict, String county, String street, String houseNumber, String postcode, Extent extent) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
@@ -36,6 +37,7 @@ public class GHEntry {
         this.country = country;
         this.city = city;
         this.state = state;
+        this.stateDistrict = stateDistrict;
         this.county = county;
         this.street = street;
         this.houseNumber = houseNumber;
@@ -45,7 +47,7 @@ public class GHEntry {
     }
 
     public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address, Extent extent) {
-        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.getCounty(), address.getStreetName(), address.houseNumber, address.postcode, extent);
+        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.stateDistrict, address.county, address.getStreetName(), address.houseNumber, address.postcode, extent);
     }
 
     public GHEntry(){}
@@ -78,6 +80,16 @@ public class GHEntry {
     @JsonProperty
     public String getState() {
         return state;
+    }
+
+    @JsonProperty
+    public void setStateDistrict(String stateDistrict) {
+        this.stateDistrict = stateDistrict;
+    }
+
+    @JsonProperty
+    public String getStateDistrict() {
+        return stateDistrict;
     }
 
     @JsonProperty

@@ -16,7 +16,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
-                gisgraphyEntry.getState(), null, gisgraphyEntry.getStreetName(),
+                gisgraphyEntry.getState(), null, null, gisgraphyEntry.getStreetName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
@@ -25,7 +25,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getIsIn(),
-                gisgraphyEntry.getAdm1Name(), null, gisgraphyEntry.getName(),
+                gisgraphyEntry.getAdm1Name(), null, null, gisgraphyEntry.getName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
