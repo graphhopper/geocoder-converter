@@ -45,7 +45,7 @@ public class GHEntry {
     }
 
     public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address, Extent extent) {
-        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.county, address.getStreetName(), address.houseNumber, address.postcode, extent);
+        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.getCounty(), address.getStreetName(), address.houseNumber, address.postcode, extent);
     }
 
     public GHEntry(){}

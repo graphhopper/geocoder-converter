@@ -76,4 +76,8 @@ public abstract class AbstractAddress {
         return construction;
     }
 
+    public String getCounty(){
+        return county;
+    }
+
 }
