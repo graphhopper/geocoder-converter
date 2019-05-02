@@ -1,4 +1,6 @@
 language: java
+# use older dist to install jdk8
+dist: trusty
 jdk:
   - openjdk11
   - oraclejdk8
