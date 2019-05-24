@@ -19,11 +19,11 @@ public class PeliasEntry {
         if (this.bbox == null || this.bbox.size() < 4)
             return null;
 
-        return new Extent(bbox.get(1), bbox.get(0), bbox.get(3), bbox.get(2));
+        return new Extent(bbox.get(3), bbox.get(0), bbox.get(1), bbox.get(2));
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class PeliasGeometry {
+    public static class PeliasGeometry {
 
         public List<Double> coordinates;
 
@@ -42,7 +42,7 @@ public class PeliasEntry {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class PeliasProperties {
+    public static class PeliasProperties {
 
         public String source;
         public String source_id;
@@ -81,7 +81,10 @@ public class PeliasEntry {
                 return null;
 
             // convert node into N, way into W and relation into R
-            return sourceArr[getId ? 1 : 0].toUpperCase().substring(0, 1);
+            if(getId)
+                return sourceArr[1];
+            else
+                return sourceArr[0].toUpperCase().substring(0, 1);
         }
 
     }

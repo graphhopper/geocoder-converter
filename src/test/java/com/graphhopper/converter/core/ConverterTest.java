@@ -114,6 +114,34 @@ public class ConverterTest {
     }
 
     @Test
+    public void testPeliasonvert() {
+        PeliasEntry entry = new PeliasEntry();
+
+        entry.geometry = new PeliasEntry.PeliasGeometry();
+        entry.geometry.coordinates = Arrays.asList(new Double[]{-0.087652, 51.508096});
+
+        entry.properties = new PeliasEntry.PeliasProperties();
+        entry.properties.source = "openstreetmap";
+        entry.properties.source_id = "way/378493707";
+        entry.properties.country = "United Kingdom";
+        entry.properties.locality = "London";
+        entry.properties.macrocounty = "England";
+        entry.properties.name = "London Bridge";
+
+        entry.bbox = Arrays.asList(new Double[]{-0.0883452, 51.5067548, -0.0870196, 51.5092817,});
+
+        GHEntry ghEntry = Converter.convertFromPelias(entry);
+        assertEquals("London", ghEntry.getCity());
+        assertEquals(378493707, ghEntry.getOsmId(), .1);
+        Extent extent = ghEntry.getExtent();
+        assertEquals(-0.0883452, extent.getExtent().get(0), .000001);
+        assertEquals(51.5092817, extent.getExtent().get(1), .000001);
+        assertEquals( -0.0870196, extent.getExtent().get(2), .000001);
+        assertEquals(51.5067548, extent.getExtent().get(3), .000001);
+
+    }
+
+    @Test
     public void testGisgraphyWithCity() {
         GisgraphyAddressEntry city = new GisgraphyAddressEntry();
         city.setCity("Berlin");

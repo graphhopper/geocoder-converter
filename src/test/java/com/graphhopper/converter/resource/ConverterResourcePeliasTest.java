@@ -45,9 +45,9 @@ public class ConverterResourcePeliasTest {
         // This might change in OSM and we might need to update this test then
         List<Double> extent = entry.getHits().get(0).getExtent().getExtent();
         assertEquals(13.1, extent.get(0), .1);
-        assertEquals(52.3, extent.get(1), .1);
+        assertEquals(52.6, extent.get(1), .1);
         assertEquals(13.7, extent.get(2), .1);
-        assertEquals(52.6, extent.get(3), .1);
+        assertEquals(52.3, extent.get(3), .1);
     }
 
     @Test
