@@ -22,6 +22,9 @@ public class ConverterConfiguration extends Configuration {
     private String openCageDataURL = "https://api.opencagedata.com/geocode/v1/json";
     private String openCageDataKey = "";
 
+    private String peliasURL = "";
+    private String peliasKey = "";
+
     private String gisgraphyGeocodingURL = "https://services.gisgraphy.com/geocoding/";
     private String gisgraphyReverseGeocodingURL ="https://services.gisgraphy.com/reversegeocoding/";
     private String gisgraphySearchURL =  "https://services.gisgraphy.com/fulltext/";
@@ -35,6 +38,7 @@ public class ConverterConfiguration extends Configuration {
     private boolean nominatim = true;
     private boolean gisgraphy = true;
     private boolean opencagedata;
+    private boolean pelias;
 
     private String ipBlackList = "";
     private String ipWhiteList = "";
@@ -97,6 +101,36 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty
     public void setOpenCageDataKey(String key) {
         this.openCageDataKey = key;
+    }
+
+    @JsonProperty
+    public void setPelias(boolean pelias) {
+        this.pelias = pelias;
+    }
+
+    @JsonProperty
+    public boolean isPelias() {
+        return this.pelias;
+    }
+
+    @JsonProperty
+    public String getPeliasURL() {
+        return peliasURL;
+    }
+
+    @JsonProperty
+    public void setPeliasURL(String url) {
+        this.peliasURL = url;
+    }
+
+    @JsonProperty
+    public String getPeliasKey() {
+        return peliasKey;
+    }
+
+    @JsonProperty
+    public void setPeliasKey(String key) {
+        this.peliasKey = key;
     }
 
     @JsonProperty

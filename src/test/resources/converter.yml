@@ -8,3 +8,7 @@ gisgraphyGeocodingURL: ${GIS_GEO_URL}
 gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
 gisgraphySearchURL:  ${GIS_SEARCH_URL}
 gisgraphyAPIKey: ${GIS_KEY}
+
+peliasURL: ${PELIAS_URL}
+peliasKey: ${PELIAS_KEY}
+pelias: true

@@ -3,7 +3,6 @@ package com.graphhopper.converter.core;
 import com.graphhopper.converter.api.*;
 
 import javax.ws.rs.core.Response;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,6 +139,29 @@ public class Converter {
         }
 
         ghResponse.addCopyright("OpenCageData")
+                .addCopyright("OpenStreetMap")
+                .addCopyright("GraphHopper");
+        if (!locale.isEmpty()) {
+            ghResponse.setLocale(locale);
+        }
+        return createResponse(ghResponse, status);
+    }
+
+    public static GHEntry convertFromPelias(PeliasEntry response) {
+        GHEntry rsp = new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(), response.geometry.getLat(), response.geometry.getLon(),
+                response.properties.name, null, response.properties.country, response.properties.locality, response.properties.region, response.properties.macrocounty, response.properties.county, response.properties.street, response.properties.housenumber, response.properties.postalcode, response.getExtent());
+        return rsp;
+    }
+
+    public static Response convertFromPelias(PeliasResponse peliasRsp, Status status, String locale) {
+        List<PeliasEntry> peliasEntries = peliasRsp.features;
+        GHResponse ghResponse = new GHResponse(peliasEntries.size());
+        for (PeliasEntry peliasEntry : peliasEntries) {
+            ghResponse.add(convertFromPelias(peliasEntry));
+        }
+
+        ghResponse.addCopyright("geocode.earth")
+                .addCopyright("geocode.earth/guidelines")
                 .addCopyright("OpenStreetMap")
                 .addCopyright("GraphHopper");
         if (!locale.isEmpty()) {

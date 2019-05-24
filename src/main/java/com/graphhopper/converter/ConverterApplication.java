@@ -6,6 +6,7 @@ import com.graphhopper.converter.resources.ConverterResourceGisgraphy;
 import com.graphhopper.converter.resources.ConverterResourceNominatim;
 import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
 
+import com.graphhopper.converter.resources.ConverterResourcePelias;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -68,6 +69,12 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         if (converterConfiguration.isOpenCageData()) {
             final ConverterResourceOpenCageData resource = new ConverterResourceOpenCageData(
                     converterConfiguration.getOpenCageDataURL(), converterConfiguration.getOpenCageDataKey(), client);
+            environment.jersey().register(resource);
+        }
+
+        if (converterConfiguration.isPelias()) {
+            final ConverterResourcePelias resource = new ConverterResourcePelias(
+                    converterConfiguration.getPeliasURL(), converterConfiguration.getPeliasKey(), client);
             environment.jersey().register(resource);
         }
 

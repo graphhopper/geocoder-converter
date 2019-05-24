@@ -7,6 +7,10 @@ openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: ${OCD_KEY}
 openCageData: true
 
+peliasURL: ${PELIAS_URL}
+peliasKey: ${PELIAS_KEY}
+pelias: true
+
 gisgraphyGeocodingURL: ${GIS_GEO_URL}
 gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
 gisgraphySearchURL:  ${GIS_SEARCH_URL}
