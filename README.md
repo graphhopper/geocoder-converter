@@ -152,7 +152,7 @@ Gisgraphy does not return tags from OSM and no Extent.
 ```
 ### NetToolKit
 
-You can find out more about NetToolKit [here](https://www.nettoolkit.com/geo/about).
+NetToolKit Geo provides rooftop accuracy for most US addresses, and provides a wrapper around Nominatim for other addresses. You can find out more about NetToolKit [here](https://www.nettoolkit.com/geo/about).
 
 The geocoding converter supports the following additional NetToolKit parameters, please consult the NetToolKit documentation to find out more details about the parameter: 
 - `source`: User can choose which source provider to geocode the address, this value is "NetToolKit" by default
@@ -162,7 +162,7 @@ The geocoding converter supports the following additional NetToolKit parameters,
 
 **Response**
 
-NetToolKit does not return tags from OSM and no Extent.
+NetToolKit does not return OSM tags (e.g. osm_id, osm_type, osm_value).
 
 ```json
 {
