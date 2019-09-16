@@ -28,13 +28,11 @@ ipWhiteList: ""
 server:
   applicationConnectors:
   - type: http
-    port: 8003
-    #port: 8080
+    port: 8080
   requestLog:
       appenders: []
   adminConnectors:
   - type: http
-    port: 8004
-    #port: 8081
+    port: 8081
     # for security reasons bind to localhost
     bindHost: localhost
