@@ -7,9 +7,37 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author Robin Boldt, David Masclet
+ * @author Robin Boldt, David Masclet, Xuejing Dong
  */
 public class Converter {
+
+    public static GHEntry convertFromNetToolKitAddress(NetToolKitAddressEntry ntkEntry) {
+        GHEntry rsp = new GHEntry(null, null, ntkEntry.getLat(),
+                ntkEntry.getLng(), ntkEntry.getAddress(), null,
+                ntkEntry.getCountry(), ntkEntry.getCity(),
+                ntkEntry.getState(), null, ntkEntry.getCounty(), ntkEntry.getStreet(),
+                ntkEntry.getHouseNumber(), ntkEntry.getPostalCode(), null);
+        return rsp;
+    }
+
+    public static Response convertFromNetToolKitList(
+            List<NetToolKitAddressEntry> netToolKitEntries, Status status) {
+        if (netToolKitEntries == null) {
+            if (status == null) {
+                status = new Status(500, "");
+            }
+            return createResponse(new GHResponse(), status);
+        } else {
+            GHResponse ghResponse = new GHResponse(netToolKitEntries.size());
+            ghResponse.addCopyright("GraphHopper")
+                    .addCopyright("NetToolKit");
+            for (NetToolKitAddressEntry entry : netToolKitEntries) {
+                ghResponse.add(convertFromNetToolKitAddress(entry));
+                ghResponse.addCopyright(entry.getProvider());
+            }
+            return createResponse(ghResponse, status);
+        }
+    }
 
     public static GHEntry convertFromGisgraphyAddress(GisgraphyAddressEntry gisgraphyEntry) {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),

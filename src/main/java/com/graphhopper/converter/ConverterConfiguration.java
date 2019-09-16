@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Robin Boldt, David Masclet
+ * @author Robin Boldt, David Masclet, Xuejing Dong
  */
 public class ConverterConfiguration extends Configuration {
 
@@ -30,6 +30,10 @@ public class ConverterConfiguration extends Configuration {
     private String gisgraphySearchURL =  "https://services.gisgraphy.com/fulltext/";
     private String gisgraphyAPIKey="";
 
+    private String netToolKitGeocodingURL = "https://api.nettoolkit.com/v1/geo/geocodes?";
+    private String netToolKitReverseGeocodingURL = "https://api.nettoolkit.com/v1/geo/reverse-geocodes?";
+    private String netToolKitKey = "";
+
     @Valid
     @NotNull
     private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -39,6 +43,7 @@ public class ConverterConfiguration extends Configuration {
     private boolean gisgraphy = true;
     private boolean opencagedata;
     private boolean pelias;
+    private boolean nettoolkit = true;
 
     private String ipBlackList = "";
     private String ipWhiteList = "";
@@ -226,5 +231,46 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty
     public void setGisgraphy(boolean gisgraphy) {
         this.gisgraphy = gisgraphy;
+    }
+
+    @JsonProperty
+    public String getNetToolKitGeocodingURL() {
+        return netToolKitGeocodingURL;
+    }
+
+    @JsonProperty
+    public void setNetToolKitGeocodingURL(String netToolKitGeocodingURL) {
+        this.netToolKitGeocodingURL = netToolKitGeocodingURL;
+    }
+
+    @JsonProperty
+    public String getNetToolKitReverseGeocodingURL() {
+        return netToolKitReverseGeocodingURL;
+    }
+
+    @JsonProperty
+    public void setNetToolKitReverseGeocodingURL(String netToolKitReverseGeocodingURL) {
+        this.netToolKitReverseGeocodingURL = netToolKitReverseGeocodingURL;
+    }
+
+
+    @JsonProperty
+    public String getNetToolKitKey() {
+        return netToolKitKey;
+    }
+
+    @JsonProperty
+    public void setNetToolKitKey(String netToolKitKey) {
+        this.netToolKitKey = netToolKitKey;
+    }
+
+    @JsonProperty
+    public boolean isNetToolKit() {
+        return nettoolkit;
+    }
+
+    @JsonProperty
+    public void setNetToolKit(boolean nettoolkit) {
+        this.nettoolkit = nettoolkit;
     }
 }

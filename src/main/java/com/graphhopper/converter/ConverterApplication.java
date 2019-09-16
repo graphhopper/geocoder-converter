@@ -5,8 +5,9 @@ import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.ConverterResourceGisgraphy;
 import com.graphhopper.converter.resources.ConverterResourceNominatim;
 import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
-
+import com.graphhopper.converter.resources.ConverterResourceNetToolKit;
 import com.graphhopper.converter.resources.ConverterResourcePelias;
+
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -22,7 +23,7 @@ import javax.ws.rs.client.Client;
 import java.util.EnumSet;
 
 /**
- * @author Robin Boldt,David Masclet
+ * @author Robin Boldt,David Masclet, Xuejing Dong
  */
 public class ConverterApplication extends Application<ConverterConfiguration> {
 
@@ -81,6 +82,15 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         if (converterConfiguration.isGisgraphy()) {
             final ConverterResourceGisgraphy resource = new ConverterResourceGisgraphy(
                     converterConfiguration.getGisgraphyGeocodingURL(), converterConfiguration.getGisgraphyReverseGeocodingURL(), converterConfiguration.getGisgraphySearchURL(), converterConfiguration.getGisgraphyAPIKey(), client);
+            environment.jersey().register(resource);
+        }
+
+        if (converterConfiguration.isNetToolKit()) {
+            final ConverterResourceNetToolKit resource = new ConverterResourceNetToolKit(
+                    converterConfiguration.getNetToolKitGeocodingURL(),
+                    converterConfiguration.getNetToolKitReverseGeocodingURL(),
+                    converterConfiguration.getNetToolKitKey(),
+                    client);
             environment.jersey().register(resource);
         }
 

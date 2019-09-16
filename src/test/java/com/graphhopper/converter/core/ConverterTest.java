@@ -9,7 +9,7 @@ import static com.graphhopper.converter.api.OpenCageDataEntry.*;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Robin Boldt,David Masclet
+ * @author Robin Boldt,David Masclet, Xuejing Dong
  */
 public class ConverterTest {
 
@@ -193,5 +193,38 @@ public class ConverterTest {
         assertEquals(address.getZipCode(), ghResponse.getPostcode());
         assertEquals(address.getStreetName(), ghResponse.getStreet());
         assertEquals(address.getHouseNumber(), ghResponse.getHouseNumber());
+    }
+
+    @Test
+    public void testNetToolKitConvert() {
+        // Build a Response
+        NetToolKitAddressEntry ntkEntry = new NetToolKitAddressEntry();
+        ntkEntry.setLat(37.3865);
+        ntkEntry.setLng(-122.0112); 
+        ntkEntry.setAddress("790 Duane Avenue E, Sunnyvale, Santa Clara, CA, 94085, USA");
+        ntkEntry.setHouseNumber("790");
+        ntkEntry.setStreet("E Duane Avenue");
+        ntkEntry.setStreetName("Duane");
+        ntkEntry.setStreetType("Avenue");
+        ntkEntry.setCity("Sunnyvale");
+        ntkEntry.setCounty("Santa Clara");
+        ntkEntry.setState("California");
+        ntkEntry.setStateCode("CA");
+        ntkEntry.setPostalCode("94085");
+        ntkEntry.setPrecision("rooftop");
+        ntkEntry.setProvider("NetToolKit");
+
+
+        GHEntry ghEntry = Converter.convertFromNetToolKitAddress(ntkEntry);
+
+        assertEquals(ntkEntry.getLat(), ghEntry.getPoint().getLat(), 0.0001);
+        assertEquals(ntkEntry.getLng(), ghEntry.getPoint().getLng(), 0.0001);
+        assertEquals(ntkEntry.getAddress(), ghEntry.getName());
+        assertEquals(ntkEntry.getHouseNumber(), ghEntry.getHouseNumber());
+        assertEquals(ntkEntry.getCity(), ghEntry.getCity());
+        assertEquals(ntkEntry.getCounty(), ghEntry.getCounty());
+        assertEquals(ntkEntry.getState(), ghEntry.getState());
+        assertEquals(ntkEntry.getPostalCode(), ghEntry.getPostcode());
+        assertEquals(ntkEntry.getStreet(), ghEntry.getStreet());
     }
 }

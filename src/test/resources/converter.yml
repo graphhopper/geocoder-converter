@@ -12,3 +12,8 @@ gisgraphyAPIKey: ${GIS_KEY}
 peliasURL: ${PELIAS_URL}
 peliasKey: ${PELIAS_KEY}
 pelias: true
+
+netToolKitGeocodingURL: https://api.nettoolkit.com/v1/geo/geocodes?
+netToolKitReverseGeocodingURL: https://api.nettoolkit.com/v1/geo/reverse-geocodes?
+netToolKitKey: ${NTK_KEY}
+netToolKit: true
