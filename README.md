@@ -26,6 +26,7 @@ This query will be translated to the following queries:
 https://nominatim.openstreetmap.org/search/berlin?format=json&addressdetails=1
 https://api.opencagedata.com/geocode/v1/json?q=berlin
 https://services.gisgraphy.com/geocoding/search?address=berlin&format=json
+https://api.nettoolkit.com/v1/geo/geocodes?address=berlin
 ```
 
 ### Reverse Geocoding
@@ -40,6 +41,7 @@ This query will be translated to the following queries:
 https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&addressdetails=1
 https://api.opencagedata.com/geocode/v1/json?q=52.5487429714954%2C-1.81602098644987
 https://services.gisgraphy.com/reversegeocoding/search?format=json&lat=52.5487429714954&lng=-1.81602098644987
+https://api.nettoolkit.com/v1/geo/reverse-geocodes?latitude=52.5487429714954&longitude=-1.81602098644987
 ```
 
 ## Providers
@@ -153,7 +155,7 @@ Gisgraphy does not return tags from OSM and no Extent.
 You can find out more about NetToolKit [here](https://www.nettoolkit.com/geo/about).
 
 The geocoding converter supports the following additional NetToolKit parameters, please consult the NetToolKit documentation to find out more details about the parameter: 
-- `source`: User can choose which source provider to geocode the address 
+- `source`: User can choose which source provider to geocode the address, this value is "NetToolKit" by default
 - `country_code`: an iso-3166-2 country code (e.g : US) filter the results to the specify country code
 
 **NetToolKit does not support the locale parameter**
