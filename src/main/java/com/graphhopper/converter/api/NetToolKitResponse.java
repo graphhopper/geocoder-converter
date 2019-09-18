@@ -16,7 +16,7 @@ public class NetToolKitResponse {
 
     @Override
     public String toString() {
-        return "results:" + results.size();
+        return "results: " + results.size();
     }
 
 }
