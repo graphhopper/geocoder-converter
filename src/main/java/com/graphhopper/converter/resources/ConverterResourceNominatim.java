@@ -41,7 +41,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                            @QueryParam("viewboxlbrt") @DefaultValue("") String viewboxlbrt,
                            @QueryParam("bounded") @DefaultValue("") String bounded,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
-                           @QueryParam("point") @DefaultValue("false") String point
+                           @QueryParam("point") @DefaultValue("") String point
     ) {
         limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);

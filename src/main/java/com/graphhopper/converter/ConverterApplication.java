@@ -2,12 +2,9 @@ package com.graphhopper.converter;
 
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
-import com.graphhopper.converter.resources.ConverterResourceGisgraphy;
-import com.graphhopper.converter.resources.ConverterResourceNominatim;
-import com.graphhopper.converter.resources.ConverterResourceOpenCageData;
-import com.graphhopper.converter.resources.ConverterResourceNetToolKit;
-import com.graphhopper.converter.resources.ConverterResourcePelias;
+import com.graphhopper.converter.resources.*;
 
+import com.graphhopper.converter.resources.ConverterResourceNetToolKit;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -90,6 +87,14 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
                     converterConfiguration.getNetToolKitGeocodingURL(),
                     converterConfiguration.getNetToolKitReverseGeocodingURL(),
                     converterConfiguration.getNetToolKitKey(),
+                    client);
+            environment.jersey().register(resource);
+        }
+
+        if (converterConfiguration.isPhoton()) {
+            final ConverterResourcePhoton resource = new ConverterResourcePhoton(
+                    converterConfiguration.getPhotonURL(),
+                    converterConfiguration.getPhotonReverseURL(),
                     client);
             environment.jersey().register(resource);
         }

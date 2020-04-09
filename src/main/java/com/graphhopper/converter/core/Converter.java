@@ -198,6 +198,27 @@ public class Converter {
         return createResponse(ghResponse, status);
     }
 
+    public static GHEntry convertFromPhoton(PhotonEntry response) {
+        GHEntry rsp = new GHEntry(response.properties.osmId, response.properties.osmType, response.geometry.getLat(), response.geometry.getLon(),
+                response.properties.name, response.properties.osmValue, response.properties.country, response.properties.city, response.properties.state, null, null, response.properties.street, response.properties.housenumber, response.properties.postcode, response.properties.getExtent());
+        return rsp;
+    }
+
+    public static Response convertFromPhoton(PhotonResponse photonResponse, Status status, String locale) {
+        List<PhotonEntry> photonEntries = photonResponse.features;
+        GHResponse ghResponse = new GHResponse(photonEntries.size());
+        for (PhotonEntry photonEntry : photonEntries) {
+            ghResponse.add(convertFromPhoton(photonEntry));
+        }
+
+        ghResponse.addCopyright("OpenStreetMap")
+                .addCopyright("GraphHopper");
+        if (!locale.isEmpty()) {
+            ghResponse.setLocale(locale);
+        }
+        return createResponse(ghResponse, status);
+    }
+
     public static Response createResponse(GHResponse ghResponse, Status status) {
         if (status.code == 200) {
 

@@ -40,7 +40,7 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
                            @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
                            @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
-                           @QueryParam("point") @DefaultValue("false") String point
+                           @QueryParam("point") @DefaultValue("") String point
     ) {
         limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);

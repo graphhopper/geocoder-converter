@@ -21,6 +21,10 @@ gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
 gisgraphySearchURL:  ${GIS_SEARCH_URL}
 gisgraphyAPIKey: ${GIS_KEY}
 
+photonURL: https://photon.komoot.de/api/
+photonReverseURL: https://photon.komoot.de/reverse/
+photon: true
+
 # e.g. to restrict for local access
 # ipWhiteList:"localhost,127.0.0.1"
 ipWhiteList: ""

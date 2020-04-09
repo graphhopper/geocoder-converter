@@ -34,6 +34,11 @@ public class ConverterConfiguration extends Configuration {
     private String netToolKitReverseGeocodingURL = "https://api.nettoolkit.com/v1/geo/reverse-geocodes?";
     private String netToolKitKey = "";
 
+    @NotEmpty
+    private String photonURL = "https://photon.komoot.de/api/";
+    @NotEmpty
+    private String photonReverseURL = "https://photon.komoot.de/reverse/";
+
     @Valid
     @NotNull
     private final JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -44,6 +49,7 @@ public class ConverterConfiguration extends Configuration {
     private boolean opencagedata;
     private boolean pelias;
     private boolean nettoolkit = true;
+    private boolean photon = true;
 
     private String ipBlackList = "";
     private String ipWhiteList = "";
@@ -272,5 +278,35 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty
     public void setNetToolKit(boolean nettoolkit) {
         this.nettoolkit = nettoolkit;
+    }
+
+    @JsonProperty
+    public String getPhotonURL() {
+        return photonURL;
+    }
+
+    @JsonProperty
+    public void setPhotonURL(String photonURL) {
+        this.photonURL = photonURL;
+    }
+
+    @JsonProperty
+    public String getPhotonReverseURL() {
+        return photonReverseURL;
+    }
+
+    @JsonProperty
+    public void setPhotonReverseURL(String photonReverseURL) {
+        this.photonReverseURL = photonReverseURL;
+    }
+
+    @JsonProperty
+    public boolean isPhoton() {
+        return photon;
+    }
+
+    @JsonProperty
+    public void setPhoton(boolean photon) {
+        this.photon = photon;
     }
 }

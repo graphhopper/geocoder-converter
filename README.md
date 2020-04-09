@@ -194,6 +194,12 @@ NetToolKit does not return OSM tags (e.g. osm_id, osm_type, osm_value).
 }
 ```
 
+### Photon
+
+Photon offers the additional parameters:
+- `bbox`: Allows to filter for the results by a bbox using `minLon,minLat,maxLon,maxLat`, for example - `bbox=9.5,51.5,11.5,53.5`
+- `location_bias_scale`: You can define how strong the bias of the provided lat,lon is on the returned results. Range is 0.1 to 10, default is 1.6. 
+
 ## Starting the Server
 
 Run the following commands from the main directory - **the version of the .jar might be different**:
@@ -206,6 +212,5 @@ java -jar target/graphhopper-geocoder-converter-0.2-SNAPSHOT.jar server converte
 
 Click on `Run->Edit Configurations->+->Application`
 
-Main Class: `com.graphhopper.converter.ConverterApplication`
+Main Class: `com.graphhopper.converter.ConverterApplication`.
 Programm Arguments: `server converter.yml`
-Tick the `Single Instance Only` (not necessary, but recommended)
