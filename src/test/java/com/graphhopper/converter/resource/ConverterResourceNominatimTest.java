@@ -45,10 +45,10 @@ public class ConverterResourceNominatimTest {
 
         // This might change in OSM and we might need to update this test then
         List<Double> extent = entry.getHits().get(0).getExtent().getExtent();
-        assertEquals(extent.get(0), 13.1, .1);
-        assertEquals(extent.get(1), 52.3, .1);
-        assertEquals(extent.get(2), 13.7, .1);
-        assertEquals(extent.get(3), 52.6, .1);
+        assertEquals(13.09, extent.get(0), .1);
+        assertEquals(52.33, extent.get(1), .1);
+        assertEquals(13.76, extent.get(2), .1);
+        assertEquals(52.52, extent.get(3), .1);
     }
 
     @Test
