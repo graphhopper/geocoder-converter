@@ -182,7 +182,8 @@ public class ConverterResourceNominatimTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
 
-        // OCD responds with "Seine-et-Marne", both seem to be interlinked: https://en.wikipedia.org/wiki/Fontainebleau
-        assertEquals("Fontainebleau", entry.getHits().get(0).getCounty());
+        // "Seine-et-Marne" or "Fontainebleau" seems to be valid: https://en.wikipedia.org/wiki/Fontainebleau
+        // "Fontainebleau is a sub-prefecture of the Seine-et-Marne department"
+        assertEquals("Seine-et-Marne", entry.getHits().get(0).getCounty());
     }
 }

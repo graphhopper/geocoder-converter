@@ -35,6 +35,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ConverterConfiguration> bootstrap) {
+        bootstrap.setObjectMapper(io.dropwizard.jackson.Jackson.newMinimalObjectMapper());
         // Enable variable substitution with environment variables
         bootstrap.setConfigurationSourceProvider(
                 new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
