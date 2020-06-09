@@ -48,7 +48,7 @@ public class ConverterResourceNominatimTest {
         assertEquals(13.09, extent.get(0), .1);
         assertEquals(52.33, extent.get(1), .1);
         assertEquals(13.76, extent.get(2), .1);
-        assertEquals(52.52, extent.get(3), .1);
+        assertEquals(52.68, extent.get(3), .1);
     }
 
     @Test
