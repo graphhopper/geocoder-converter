@@ -18,10 +18,10 @@ public class PhotonEntry {
     public String type;
 
     @JsonProperty("properties")
-    public PeliasProperties properties;
+    public PhotonProperties properties;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PeliasProperties {
+    public static class PhotonProperties {
 
         @JsonProperty("osm_id")
         public long osmId;
