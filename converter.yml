@@ -20,6 +20,7 @@ gisgraphyGeocodingURL: ${GIS_GEO_URL}
 gisgraphyReverseGeocodingURL:  ${GIS_REV_GEO_URL}
 gisgraphySearchURL:  ${GIS_SEARCH_URL}
 gisgraphyAPIKey: ${GIS_KEY}
+gisgraphy: true
 
 photonURL: https://photon.komoot.de/api/
 photonReverseURL: https://photon.komoot.de/reverse/

@@ -46,8 +46,8 @@ public class ConverterConfiguration extends Configuration {
     private boolean healthCheck = true;
     private boolean nominatim = true;
     private boolean gisgraphy = true;
-    private boolean opencagedata;
-    private boolean pelias;
+    private boolean opencagedata = true;
+    private boolean pelias = true;
     private boolean nettoolkit = true;
     private boolean photon = true;
 
