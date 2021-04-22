@@ -20,6 +20,7 @@ public class GHEntry {
 
     private String name;
     private String country;
+    private String countrycode;
     private String city;
     private String state;
     private String stateDistrict;
@@ -31,7 +32,7 @@ public class GHEntry {
     private String osmValue;
 
     public GHEntry(Long osmId, String osmType, double lat, double lng, String name, String osmKey, String osmValue,
-                   String country, String city, String state, String stateDistrict, String county, String street,
+                   String country, String countrycode, String city, String state, String stateDistrict, String county, String street,
                    String houseNumber, String postcode, Extent extent) {
         this.osmId = osmId;
         this.osmType = osmType;
@@ -40,6 +41,7 @@ public class GHEntry {
         this.point = new Point(lat, lng);
         this.name = name;
         this.country = country;
+        this.countrycode = countrycode;
         this.city = city;
         this.state = state;
         this.stateDistrict = stateDistrict;
@@ -52,7 +54,7 @@ public class GHEntry {
 
     public GHEntry(Long osmId, String osmType, double lat, double lng, String name, String osmKey, String osmValue,
                    AbstractAddress address, Extent extent) {
-        this(osmId, osmType, lat, lng, name, osmKey, osmValue, address.country, address.getGHCity(), address.state,
+        this(osmId, osmType, lat, lng, name, osmKey, osmValue, address.country, null, address.getGHCity(), address.state,
                 address.stateDistrict, address.county, address.getStreetName(), address.houseNumber, address.postcode, extent);
     }
 
@@ -107,6 +109,16 @@ public class GHEntry {
     @JsonProperty
     public String getCounty() {
         return county;
+    }
+
+    @JsonProperty
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
+    }
+
+    @JsonProperty
+    public String getCountrycode() {
+        return countrycode;
     }
 
     @JsonProperty

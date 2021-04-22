@@ -41,6 +41,9 @@ public class PhotonEntry {
         @JsonProperty("country")
         public String country;
 
+        @JsonProperty("countrycode")
+        public String countrycode;
+
         @JsonProperty("state")
         public String state;
 
