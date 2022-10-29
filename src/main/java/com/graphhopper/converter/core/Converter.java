@@ -12,12 +12,11 @@ import java.util.List;
 public class Converter {
 
     public static GHEntry convertFromNetToolKitAddress(NetToolKitAddressEntry ntkEntry) {
-        GHEntry rsp = new GHEntry(null, null, ntkEntry.getLat(),
+       return new GHEntry(null, null, ntkEntry.getLat(),
                 ntkEntry.getLng(), ntkEntry.getAddress(), null, null,
                 ntkEntry.getCountry(), null, ntkEntry.getCity(),
                 ntkEntry.getState(), null, ntkEntry.getCounty(), ntkEntry.getStreet(),
                 ntkEntry.getHouseNumber(), ntkEntry.getPostalCode(), null);
-        return rsp;
     }
 
     public static Response convertFromNetToolKitList(
@@ -40,21 +39,19 @@ public class Converter {
     }
 
     public static GHEntry convertFromGisgraphyAddress(GisgraphyAddressEntry gisgraphyEntry) {
-        GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
+        return new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null, null,
                 gisgraphyEntry.getCountry(), null, gisgraphyEntry.getCity(),
                 gisgraphyEntry.getState(), null, null, gisgraphyEntry.getStreetName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
-        return rsp;
     }
 
     public static GHEntry convertFromGisgraphySearch(GisgraphySearchEntry gisgraphyEntry) {
-        GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
+        return new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null, null,
                 gisgraphyEntry.getCountry(), null, gisgraphyEntry.getIsIn(),
                 gisgraphyEntry.getAdm1Name(), null, null, gisgraphyEntry.getName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
-        return rsp;
     }
 
     public static Response convertFromGisgraphyList(
@@ -98,9 +95,8 @@ public class Converter {
     }
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
-        GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
+        return new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
                 response.getDisplayName(), null, response.getType(), response.getAddress(), response.getExtent());
-        return rsp;
     }
 
     public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status, String locale) {
@@ -153,10 +149,8 @@ public class Converter {
             }
         }
 
-        GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
+        return new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
                 response.getFormatted(), null, response.getComponents().type, response.getComponents(), response.getExtent());
-
-        return rsp;
     }
 
     public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status, String locale) {
@@ -176,12 +170,11 @@ public class Converter {
     }
 
     public static GHEntry convertFromPelias(PeliasEntry response) {
-        GHEntry rsp = new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(),
+        return new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(),
                 response.geometry.getLat(), response.geometry.getLon(), response.properties.name, null, null,
                 response.properties.country, null, response.properties.locality, response.properties.region,
                 response.properties.macrocounty, response.properties.county, response.properties.street,
                 response.properties.housenumber, response.properties.postalcode, response.getExtent());
-        return rsp;
     }
 
     public static Response convertFromPelias(PeliasResponse peliasRsp, Status status, String locale) {
