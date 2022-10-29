@@ -19,10 +19,7 @@ abstract class AbstractConverterResource {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     int fixLimit(int limit) {
-        if (limit > 10) {
-            return 10;
-        }
-        return limit;
+        return Math.min(limit, 10);
     }
 
     void checkInvalidParameter(boolean reverse, String query, String point) {
