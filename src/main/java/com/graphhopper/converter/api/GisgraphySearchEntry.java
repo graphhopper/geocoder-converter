@@ -181,18 +181,14 @@ public class GisgraphySearchEntry {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("GisgraphySearchEntry [featureId=");
-        builder.append(featureId);
-        builder.append(", ");
+        String stringfeatureId = "GisgraphySearchEntry [featureId="+featureId+", ";
+        builder.append(stringfeatureId);
         if (name != null) {
-            builder.append("name=");
-            builder.append(name);
-            builder.append(", ");
+            String strName = "name=" + name + ", ";
+            builder.append(strName);
         }
         if (isIn != null) {
-            builder.append("isIn=");
-            builder.append(isIn);
-            builder.append(", ");
+            builder.append("isIn="+isIn+", ");
         }
         builder.append("]");
         return builder.toString();
