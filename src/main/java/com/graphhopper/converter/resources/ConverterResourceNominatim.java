@@ -39,6 +39,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                            @QueryParam("locale") @DefaultValue("") String locale,
                            @QueryParam("viewbox") @DefaultValue("") String viewbox,
                            @QueryParam("bounded") @DefaultValue("") String bounded,
+                           @QueryParam("postalcode") @DefaultValue("") String postalcode,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("") String point
     ) {
@@ -58,6 +59,9 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                 queryParam("email", nominatimEmail).
                 queryParam("addressdetails", "1");
 
+        if (!postalcode.isEmpty()) {
+            target.queryParam("postalcode", postalcode);
+        }
         if (!locale.isEmpty()) {
             locale = getLocaleFromParameter(locale);
             target = target.queryParam("accept-language", locale);

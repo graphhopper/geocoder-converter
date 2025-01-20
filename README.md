@@ -77,6 +77,7 @@ The geocoding converter supports the following additional Nominatim parameters, 
 - `viewbox`
 - `viewboxlbrt`
 - `bounded` 
+- `postalcode`
 
 **Response**
 
