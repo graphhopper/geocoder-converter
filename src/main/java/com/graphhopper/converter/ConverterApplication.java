@@ -1,5 +1,6 @@
 package com.graphhopper.converter;
 
+import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
@@ -52,6 +53,8 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
         final Client client = new JerseyClientBuilder(environment).using(cfg)
                 .build(getName());
+
+        environment.jersey().register(new CacheFilter());
 
         if (converterConfiguration.isNominatim()) {
             final ConverterResourceNominatim resource = new ConverterResourceNominatim(
