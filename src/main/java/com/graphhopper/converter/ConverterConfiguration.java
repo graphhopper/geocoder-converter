@@ -58,6 +58,16 @@ public class ConverterConfiguration extends Configuration {
 
     private String ipBlackList = "";
     private String ipWhiteList = "";
+    private boolean withCORS = false;
+
+    @JsonProperty("withCORS")
+    public void setWithCORS(boolean withCORS) {
+        this.withCORS = withCORS;
+    }
+
+    public boolean isWithCORS() {
+        return withCORS;
+    }
 
     @JsonProperty
     public void setNominatim(boolean nom) {

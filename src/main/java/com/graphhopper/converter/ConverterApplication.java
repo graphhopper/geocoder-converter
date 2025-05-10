@@ -12,8 +12,10 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.util.Duration;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.ws.rs.client.Client;
 import java.util.EnumSet;
 
@@ -53,6 +55,14 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
 
         final Client client = new JerseyClientBuilder(environment).using(cfg)
                 .build(getName());
+
+        if (converterConfiguration.isWithCORS()) {
+            FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+            cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+            cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
+            cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,HEAD");
+            cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        }
 
         environment.jersey().register(new CacheFilter());
 
