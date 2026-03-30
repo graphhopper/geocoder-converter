@@ -2,7 +2,7 @@ package com.graphhopper.converter.core;
 
 import com.graphhopper.converter.api.*;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 

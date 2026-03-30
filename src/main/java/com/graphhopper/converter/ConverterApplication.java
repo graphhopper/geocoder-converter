@@ -4,20 +4,20 @@ import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
-import io.dropwizard.Application;
+import io.dropwizard.core.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import io.dropwizard.core.setup.Bootstrap;
+import io.dropwizard.core.setup.Environment;
 import io.dropwizard.util.Duration;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.eclipse.jetty.server.handler.CrossOriginHandler;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.ws.rs.client.Client;
+import jakarta.servlet.DispatcherType;
+import jakarta.ws.rs.client.Client;
 import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * @author Robin Boldt,David Masclet, Xuejing Dong
@@ -57,11 +57,11 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
                 .build(getName());
 
         if (converterConfiguration.isWithCORS()) {
-            FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
-            cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
-            cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
-            cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,HEAD");
-            cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+            CrossOriginHandler corsHandler = new CrossOriginHandler();
+            corsHandler.setAllowedOriginPatterns(Set.of("*"));
+            corsHandler.setAllowedHeaders(Set.of("X-Requested-With", "Content-Type", "Accept", "Origin"));
+            corsHandler.setAllowedMethods(Set.of("OPTIONS", "GET", "PUT", "POST", "HEAD"));
+            environment.getApplicationContext().insertHandler(corsHandler);
         }
 
         environment.jersey().register(new CacheFilter());

@@ -1,12 +1,12 @@
 package com.graphhopper.converter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.Configuration;
+import io.dropwizard.core.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;

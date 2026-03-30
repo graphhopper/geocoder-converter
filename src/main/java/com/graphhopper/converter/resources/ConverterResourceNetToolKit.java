@@ -5,10 +5,10 @@ import com.graphhopper.converter.api.NetToolKitResponse;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
 
-import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author Xuejing Dong

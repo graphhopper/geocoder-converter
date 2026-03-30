@@ -5,28 +5,28 @@ import com.graphhopper.converter.ConverterConfiguration;
 import com.graphhopper.converter.api.GHResponse;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
+import io.dropwizard.testing.junit5.DropwizardAppExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.glassfish.jersey.client.ClientProperties;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Robin Boldt
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 public class ConverterResourcePhotonTest {
-    @ClassRule
-    public static final DropwizardAppRule<ConverterConfiguration> RULE =
-            new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    static final DropwizardAppExtension<ConverterConfiguration> RULE =
+            new DropwizardAppExtension<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
     private static Client client;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
@@ -40,7 +40,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
         assertEquals("default", entry.getLocale()); // by default don't use e.g. "en" as it would incorrectly use name:en instead of name
         assertFalse(entry.getHits().isEmpty());
@@ -55,7 +55,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
         assertNotEquals("Beerstraße", entry.getHits().get(0).getName());
 
@@ -64,7 +64,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         entry = response.readEntity(GHResponse.class);
         assertEquals("70199", entry.getHits().get(0).getPostcode());
         assertEquals("Beerstraße", entry.getHits().get(0).getName());
@@ -76,7 +76,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
         assertEquals("30175", entry.getHits().get(0).getPostcode());
     }
@@ -87,7 +87,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
 
         GHResponse entry = response.readEntity(GHResponse.class);
         assertEquals("Rotebühlplatz Position 2", entry.getHits().get(0).getName());
@@ -99,7 +99,7 @@ public class ConverterResourcePhotonTest {
         Response response = client.target(String.format("http://localhost:%d/photon?q=berlin&osm_tag=place:city", RULE.getLocalPort()))
                 .request()
                 .get();
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
         assertEquals("Berlin", entry.getHits().get(0).getName());
         assertEquals("city", entry.getHits().get(0).getOsmValue());
@@ -108,7 +108,7 @@ public class ConverterResourcePhotonTest {
                         String.format("http://localhost:%d/photon?q=berlin&osm_tag=!place:city", RULE.getLocalPort()))
                 .request()
                 .get();
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         entry = response.readEntity(GHResponse.class);
         assertNotEquals("Berlin", entry.getHits().get(0).getName());
     }
@@ -119,7 +119,7 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
 
         GHResponse entry = response.readEntity(GHResponse.class);
         assertEquals("Newark Liberty International Airport", entry.getHits().get(0).getName());
@@ -131,8 +131,8 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(400);
-        assertThat(response.readEntity(String.class)).contains("q parameter cannot contain more than 30 spaces");
+        assertEquals(400, response.getStatus());
+        assertTrue(response.readEntity(String.class).contains("q parameter cannot contain more than 30 spaces"));
     }
 
     @Test
@@ -142,9 +142,9 @@ public class ConverterResourcePhotonTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertEquals(entry.getLocale(), "de");
+        assertEquals("de", entry.getLocale());
     }
 
 }

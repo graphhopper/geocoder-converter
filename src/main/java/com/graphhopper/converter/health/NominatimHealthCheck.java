@@ -2,8 +2,8 @@ package com.graphhopper.converter.health;
 
 import com.codahale.metrics.health.HealthCheck;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author Robin Boldt

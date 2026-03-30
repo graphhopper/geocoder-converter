@@ -1,12 +1,12 @@
 package com.graphhopper.converter.core;
 
 import com.graphhopper.converter.api.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static com.graphhopper.converter.api.OpenCageDataEntry.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Robin Boldt,David Masclet, Xuejing Dong

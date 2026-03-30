@@ -5,31 +5,29 @@ import com.graphhopper.converter.ConverterConfiguration;
 import com.graphhopper.converter.api.GHResponse;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
+import io.dropwizard.testing.junit5.DropwizardAppExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.glassfish.jersey.client.ClientProperties;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Robin Boldt
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 public class ConverterResourceNominatimTest {
-    @ClassRule
-    public static final DropwizardAppRule<ConverterConfiguration> RULE =
-            new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    static final DropwizardAppExtension<ConverterConfiguration> RULE =
+            new DropwizardAppExtension<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
     private static Client client;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
 
@@ -44,9 +42,9 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("en"));
+        assertEquals("en", entry.getLocale());
 
         // This might change in OSM and we might need to update this test then
         List<Double> extent = entry.getHits().get(0).getExtent().getExtent();
@@ -76,7 +74,7 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
     }
 
     @Test
@@ -86,9 +84,9 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("de"));
+        assertEquals("de", entry.getLocale());
     }
 
     @Test
@@ -98,9 +96,9 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("de-CH"));
+        assertEquals("de-CH", entry.getLocale());
     }
 
     @Test
@@ -110,9 +108,9 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("en"));
+        assertEquals("en", entry.getLocale());
     }
 
     @Test
@@ -122,9 +120,9 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("en"));
+        assertEquals("en", entry.getLocale());
     }
 
     @Test
@@ -134,7 +132,7 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(400);
+        assertEquals(400, response.getStatus());
     }
 
     @Test
@@ -144,7 +142,7 @@ public class ConverterResourceNominatimTest {
                 .request()
                 .get();
 
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
         GHResponse entry = response.readEntity(GHResponse.class);
 
         // "Seine-et-Marne" or "Fontainebleau" seems to be valid: https://en.wikipedia.org/wiki/Fontainebleau
