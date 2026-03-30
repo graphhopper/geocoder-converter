@@ -22,6 +22,10 @@ public abstract class AbstractAddress {
     @JsonProperty
     public String county;
     @JsonProperty
+    public String suburb;
+    @JsonProperty
+    public String quarter;
+    @JsonProperty
     public String town;
     @JsonProperty
     public String village;

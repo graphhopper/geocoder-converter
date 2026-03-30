@@ -15,7 +15,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, ntkEntry.getLat(),
                 ntkEntry.getLng(), ntkEntry.getAddress(), null, null,
                 ntkEntry.getCountry(), null, ntkEntry.getCity(),
-                ntkEntry.getState(), null, ntkEntry.getCounty(), ntkEntry.getStreet(),
+                ntkEntry.getState(), null, null, null, ntkEntry.getCounty(), ntkEntry.getStreet(),
                 ntkEntry.getStreetNumber(), ntkEntry.getPostalCode(), null);
         return rsp;
     }
@@ -43,7 +43,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null, null,
                 gisgraphyEntry.getCountry(), null, gisgraphyEntry.getCity(),
-                gisgraphyEntry.getState(), null, null, gisgraphyEntry.getStreetName(),
+                gisgraphyEntry.getState(), null, null, null, null, gisgraphyEntry.getStreetName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
@@ -52,7 +52,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
                 gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null, null,
                 gisgraphyEntry.getCountry(), null, gisgraphyEntry.getIsIn(),
-                gisgraphyEntry.getAdm1Name(), null, null, gisgraphyEntry.getName(),
+                gisgraphyEntry.getAdm1Name(), null, null, null, null, gisgraphyEntry.getName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
         return rsp;
     }
@@ -179,7 +179,7 @@ public class Converter {
         GHEntry rsp = new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(),
                 response.geometry.getLat(), response.geometry.getLon(), response.properties.name, null, null,
                 response.properties.country, null, response.properties.locality, response.properties.region,
-                response.properties.macrocounty, response.properties.county, response.properties.street,
+                response.properties.macrocounty, null, null, response.properties.county, response.properties.street,
                 response.properties.housenumber, response.properties.postalcode, response.getExtent());
         return rsp;
     }
@@ -205,7 +205,8 @@ public class Converter {
         GHEntry rsp = new GHEntry(response.properties.osmId, response.properties.osmType,
                 response.geometry.getLat(), response.geometry.getLon(), response.properties.name,
                 response.properties.osmKey, response.properties.osmValue, response.properties.country, response.properties.countrycode,
-                response.properties.city, response.properties.state, null, null, response.properties.street, response.properties.housenumber,
+                response.properties.city, response.properties.state, null,
+                response.properties.district, response.properties.locality, null, response.properties.street, response.properties.housenumber,
                 response.properties.postcode, response.properties.getExtent());
         if (rsp.getName() == null || rsp.getName().isEmpty()) {
             for (String tmp : new String[]{rsp.getStreet(), rsp.getCity(), rsp.getState(), rsp.getCountry()}) {

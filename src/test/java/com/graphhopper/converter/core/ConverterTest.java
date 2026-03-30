@@ -227,4 +227,51 @@ public class ConverterTest {
         assertEquals(ntkEntry.getPostalCode(), ghEntry.getPostcode());
         assertEquals(ntkEntry.getStreet(), ghEntry.getStreet());
     }
+
+    @Test
+    public void testNominatimDistrictAndLocality() {
+        NominatimEntry nominatimResponse = new NominatimEntry();
+        nominatimResponse.setOsmId(1L);
+        nominatimResponse.setDisplayName("Lindenschmitstraße, München");
+        nominatimResponse.setLat(48.1184);
+        nominatimResponse.setLon(11.5436);
+        nominatimResponse.getAddress().suburb = "Sendling";
+        nominatimResponse.getAddress().quarter = "Sendlinger Berg";
+        nominatimResponse.getAddress().city = "München";
+        nominatimResponse.getAddress().state = "Bayern";
+        nominatimResponse.getAddress().country = "Deutschland";
+        nominatimResponse.getAddress().postcode = "81371";
+
+        GHEntry ghEntry = Converter.convertFromNominatim(nominatimResponse);
+
+        assertEquals("Sendling", ghEntry.getDistrict());
+        assertEquals("Sendlinger Berg", ghEntry.getLocality());
+        assertEquals("München", ghEntry.getCity());
+        assertEquals("Bayern", ghEntry.getState());
+    }
+
+    @Test
+    public void testPhotonDistrictAndLocality() {
+        PhotonEntry entry = new PhotonEntry();
+        entry.geometry = new GeojsonPoint();
+        entry.geometry.coordinates = Arrays.asList(11.5436, 48.1184);
+        entry.geometry.type = "Point";
+        entry.properties = new PhotonEntry.PhotonProperties();
+        entry.properties.osmId = 40108388L;
+        entry.properties.osmType = "W";
+        entry.properties.name = "Lindenschmitstraße";
+        entry.properties.city = "München";
+        entry.properties.state = "Bayern";
+        entry.properties.country = "Deutschland";
+        entry.properties.district = "Sendling";
+        entry.properties.locality = "Sendlinger Berg";
+        entry.properties.postcode = "81371";
+
+        GHEntry ghEntry = Converter.convertFromPhoton(entry);
+
+        assertEquals("Sendling", ghEntry.getDistrict());
+        assertEquals("Sendlinger Berg", ghEntry.getLocality());
+        assertEquals("München", ghEntry.getCity());
+        assertEquals("Lindenschmitstraße", ghEntry.getName());
+    }
 }

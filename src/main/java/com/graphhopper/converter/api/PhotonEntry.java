@@ -50,6 +50,12 @@ public class PhotonEntry {
         @JsonProperty("city")
         public String city;
 
+        @JsonProperty("district")
+        public String district;
+
+        @JsonProperty("locality")
+        public String locality;
+
         @JsonProperty("street")
         public String street;
 
