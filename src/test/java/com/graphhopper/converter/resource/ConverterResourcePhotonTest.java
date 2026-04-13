@@ -110,7 +110,7 @@ public class ConverterResourcePhotonTest {
                 .get();
         assertEquals(200, response.getStatus());
         entry = response.readEntity(GHResponse.class);
-        assertNotEquals("Berlin", entry.getHits().get(0).getName());
+        assertNotEquals("city", entry.getHits().get(0).getOsmValue());
     }
 
     @Test
