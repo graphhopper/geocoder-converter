@@ -45,10 +45,15 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);
 
-        WebTarget target = jerseyClient.
-                target(url).
-                queryParam("q", reverse ? point : query).
-                queryParam("limit", limit);
+        WebTarget target = jerseyClient.target(url).queryParam("limit", limit);
+        if (reverse) {
+            target = target.queryParam("q", point);
+        } else {
+            // forward geocoding request can have and additional location preference via "proximity"
+            target = target.queryParam("q", query);
+            if (!point.isEmpty())
+                target = target.queryParam("proximity", point);
+        }
 
         target = target.queryParam("key", key);
 
