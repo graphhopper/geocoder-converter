@@ -52,10 +52,14 @@ abstract class AbstractConverterResource {
             if (!isValid(query, "{}[]")) {
                 throw new BadRequestException("q contains invalid characters like {}[]");
             }
+            // gisgraphy has a strict limit of 200, but let's enforce it for all providers
+            if (query.length() > 200) {
+                throw new BadRequestException("q cannot be longer than 200 characters");
+            }
         }
     }
 
-    public static boolean isValid(String input, String allowedSpecialChars) {
+    private static boolean isValid(String input, String allowedSpecialChars) {
         for (int i = 0; i < input.length(); i++) {
             if (allowedSpecialChars.indexOf(input.charAt(i)) >= 0)
                 return false;
