@@ -91,9 +91,9 @@ abstract class AbstractConverterResource {
             response.close();
             LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
             if (status.code >= 500)
-                throw new WebApplicationException("The geocoding provider responded with an unexpected error.", 500);
+                throw new WebApplicationException("The geocoding provider responded with an unexpected error: " + status.code + " - " + status.message, 500);
             else
-                throw new BadRequestException("The geocoding provider responded with an unexpected error.");
+                throw new BadRequestException("The geocoding provider responded with an error: " + status.code + " - " + status.message);
         }
         return status;
     }
