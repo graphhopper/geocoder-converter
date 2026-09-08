@@ -1,6 +1,7 @@
 package com.graphhopper.converter.resources;
 
 import com.graphhopper.converter.api.Status;
+import jakarta.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +53,11 @@ abstract class AbstractConverterResource {
             if (!isValid(query, "{}[]")) {
                 throw new BadRequestException("q contains invalid characters like {}[]");
             }
-            // gisgraphy has a strict limit of 200, but let's enforce it for all providers
-            if (query.length() > 200) {
+            // gisgraphy is a bit picky about the length and we use JAX-RS to forward the query to them.
+            // So use JAX-RS here too as it encodes space differently via %20 instead of + (URLEncoder)
+            String encodedQuery = UriBuilder.fromPath("").queryParam("q", query)
+                    .build().getRawQuery();
+            if (encodedQuery.length() > 190) {
                 throw new BadRequestException("q cannot be longer than 200 characters");
             }
         }
