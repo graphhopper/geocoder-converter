@@ -57,13 +57,13 @@ abstract class AbstractConverterResource {
             // So use JAX-RS here too as it encodes space differently via %20 instead of + (URLEncoder)
             String encodedQuery = UriBuilder.fromPath("").queryParam("q", query)
                     .build().getRawQuery();
-            if (encodedQuery.length() > 190) {
+            if (encodedQuery.length() >= 200) {
                 throw new BadRequestException("q cannot be longer than 200 characters");
             }
         }
     }
 
-    private static boolean isValid(String input, String allowedSpecialChars) {
+    public static boolean isValid(String input, String allowedSpecialChars) {
         for (int i = 0; i < input.length(); i++) {
             if (allowedSpecialChars.indexOf(input.charAt(i)) >= 0)
                 return false;
