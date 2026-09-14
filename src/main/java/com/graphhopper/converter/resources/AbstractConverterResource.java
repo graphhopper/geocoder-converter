@@ -53,11 +53,7 @@ abstract class AbstractConverterResource {
             if (!isValid(query, "{}[]")) {
                 throw new BadRequestException("q contains invalid characters like {}[]");
             }
-            // gisgraphy is a bit picky about the length and we use JAX-RS to forward the query to them.
-            // So use JAX-RS here too as it encodes space differently via %20 instead of + (URLEncoder)
-            String encodedQuery = UriBuilder.fromPath("").queryParam("q", query)
-                    .build().getRawQuery();
-            if (encodedQuery.length() >= 200) {
+            if (query.length() >= 200) {
                 throw new BadRequestException("q cannot be longer than 200 characters");
             }
         }
