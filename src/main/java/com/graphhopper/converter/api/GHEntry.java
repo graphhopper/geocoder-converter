@@ -3,6 +3,7 @@ package com.graphhopper.converter.api;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Robin Boldt
@@ -17,6 +18,8 @@ public class GHEntry {
     private Point point;
     @JsonUnwrapped
     private Extent extent;
+    // GeoJSON geometry, only set if requested via geometry=true and the provider supports it
+    private JsonNode geometry;
 
     private String name;
     private String country;
@@ -250,6 +253,16 @@ public class GHEntry {
     @JsonProperty
     public void setExtent(Extent extent) {
         this.extent = extent;
+    }
+
+    @JsonProperty
+    public JsonNode getGeometry() {
+        return geometry;
+    }
+
+    @JsonProperty
+    public void setGeometry(JsonNode geometry) {
+        this.geometry = geometry;
     }
 
     public class Point {

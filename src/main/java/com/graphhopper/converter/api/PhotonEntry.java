@@ -12,7 +12,7 @@ import java.util.List;
 public class PhotonEntry {
 
     @JsonProperty("geometry")
-    public GeojsonPoint geometry;
+    public GeojsonGeometry geometry;
 
     @JsonProperty("type")
     public String type;

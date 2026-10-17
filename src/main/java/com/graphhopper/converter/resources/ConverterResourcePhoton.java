@@ -42,7 +42,8 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
                            @QueryParam("zoom") @DefaultValue("16") int zoom,
                            @QueryParam("osm_tag") List<String> osmTags,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
-                           @QueryParam("point") @DefaultValue("") String point
+                           @QueryParam("point") @DefaultValue("") String point,
+                           @QueryParam("geometry") @DefaultValue("false") boolean geometry
     ) {
         limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);
@@ -91,6 +92,11 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
 
         for (String osmTag : osmTags) {
             target = target.queryParam("osm_tag", osmTag);
+        }
+
+        // photon then returns the full geometry (if imported) instead of the point, see GeojsonGeometry
+        if (geometry) {
+            target = target.queryParam("geometry", true);
         }
 
         Response response = target.request().accept("application/json").get();

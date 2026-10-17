@@ -1,5 +1,6 @@
 package com.graphhopper.converter.core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graphhopper.converter.api.*;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +8,7 @@ import java.util.Arrays;
 
 import static com.graphhopper.converter.api.OpenCageDataEntry.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Robin Boldt,David Masclet, Xuejing Dong
@@ -253,8 +255,8 @@ public class ConverterTest {
     @Test
     public void testPhotonDistrictAndLocality() {
         PhotonEntry entry = new PhotonEntry();
-        entry.geometry = new GeojsonPoint();
-        entry.geometry.coordinates = Arrays.asList(11.5436, 48.1184);
+        entry.geometry = new GeojsonGeometry();
+        entry.geometry.coordinates = new ObjectMapper().valueToTree(Arrays.asList(11.5436, 48.1184));
         entry.geometry.type = "Point";
         entry.properties = new PhotonEntry.PhotonProperties();
         entry.properties.osmId = 40108388L;
@@ -273,5 +275,29 @@ public class ConverterTest {
         assertEquals("Sendlinger Berg", ghEntry.getLocality());
         assertEquals("München", ghEntry.getCity());
         assertEquals("Lindenschmitstraße", ghEntry.getName());
+    }
+
+    @Test
+    public void testPhotonGeometry() throws Exception {
+        PhotonEntry entry = new PhotonEntry();
+        entry.properties = new PhotonEntry.PhotonProperties();
+        entry.properties.name = "Hamburg";
+        entry.geometry = new ObjectMapper().readValue("{\"type\":\"MultiPolygon\",\"coordinates\":[" +
+                // big square around the city, small far away square (exclave like Neuwerk)
+                "[[[9.8,53.4],[10.2,53.4],[10.2,53.7],[9.8,53.7],[9.8,53.4]]]," +
+                "[[[8.4,53.9],[8.5,53.9],[8.5,54.0],[8.4,54.0],[8.4,53.9]]]]}", GeojsonGeometry.class);
+
+        GHEntry ghEntry = Converter.convertFromPhoton(entry);
+        assertEquals(53.55, ghEntry.getPoint().getLat(), 1e-6);
+        assertEquals(10.0, ghEntry.getPoint().getLng(), 1e-6);
+        assertEquals("MultiPolygon", ghEntry.getGeometry().get("type").asText());
+
+        // point geometry is not returned
+        entry = new PhotonEntry();
+        entry.properties = new PhotonEntry.PhotonProperties();
+        entry.geometry = new ObjectMapper().readValue("{\"type\":\"Point\",\"coordinates\":[10.0,53.55]}", GeojsonGeometry.class);
+        ghEntry = Converter.convertFromPhoton(entry);
+        assertEquals(53.55, ghEntry.getPoint().getLat(), 1e-6);
+        assertNull(ghEntry.getGeometry());
     }
 }
