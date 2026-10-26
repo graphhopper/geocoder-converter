@@ -133,6 +133,7 @@ The geocoding converter supports the following additional OCD parameters, please
 - `countrycode`
 - `bounds`
 - `nominatim` - boolean: this parameter is converted to the `only_nominatim` parameter of OCD 
+- `no_record` - boolean: if true this is converted to `no_record=1` of OCD, i.e. OCD does not log the query contents
 - `find_osm_id` - boolean: this parameter is true by default, if you pass false this will be converted to the `no_annotations` call of OCD.
 
 **Response**

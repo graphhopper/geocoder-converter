@@ -38,6 +38,7 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
                            @QueryParam("countrycode") @DefaultValue("") String countrycode,
                            @QueryParam("bounds") @DefaultValue("") String bounds,
                            @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
+                           @QueryParam("no_record") @DefaultValue("false") boolean no_record,
                            @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("") String point
@@ -63,6 +64,10 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
 
         if (nominatim) {
             target = target.queryParam("only_nominatim", "1");
+        }
+
+        if (no_record) {
+            target = target.queryParam("no_record", "1");
         }
 
         if (!locale.isEmpty()) {
