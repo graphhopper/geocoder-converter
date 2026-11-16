@@ -89,12 +89,23 @@ abstract class AbstractConverterResource {
         if (status.code < 200 || status.code >= 300) {
             // avoid connection leaks, see #52
             response.close();
-            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            LOGGER.error("There was an issue with the target " + redacted(target) + " the provider returned: " + status.code + " - " + status.message);
             if (status.code >= 500)
                 throw new WebApplicationException("The geocoding provider responded with an unexpected error: " + status.code + " - " + status.message, 500);
             else
                 throw new BadRequestException("The geocoding provider responded with an error: " + status.code + " - " + status.message);
         }
         return status;
+    }
+
+    void logDeserializationError(WebTarget target, Status status, Exception e) {
+        LOGGER.error("There was an issue with the target " + redacted(target) + " the provider returned: " + status.code + " - " + status.message, e);
+    }
+
+    /**
+     * The target URI without the provider API keys, which are passed as query parameters.
+     */
+    static String redacted(WebTarget target) {
+        return target.getUri().toString().replaceAll("([?&](?:key|apikey|api_key)=)[^&]*", "$1REDACTED");
     }
 }

@@ -87,7 +87,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
             }
             return Converter.convertFromNominatimList(entitiesFromResponse, status, locale);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            logDeserializationError(target, status, e);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();

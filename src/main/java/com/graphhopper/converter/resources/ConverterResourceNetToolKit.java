@@ -58,8 +58,7 @@ public class ConverterResourceNetToolKit extends AbstractConverterResource {
             NetToolKitResponse ntkResponse = response.readEntity(NetToolKitResponse.class);
             return Converter.convertFromNetToolKitList(ntkResponse.results, status);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri()
-                    + " the provider returned: " + status.code + " - " + status.message);
+            logDeserializationError(target, status, e);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();

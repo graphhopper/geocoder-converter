@@ -106,7 +106,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
             PhotonResponse photonResponse = response.readEntity(PhotonResponse.class);
             return Converter.convertFromPhoton(photonResponse, status, locale);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            logDeserializationError(target, status, e);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();

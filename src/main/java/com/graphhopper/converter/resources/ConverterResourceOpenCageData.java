@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
-import org.apache.commons.lang3.time.StopWatch;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.client.Client;
@@ -83,19 +82,14 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
             target = target.queryParam("bounds", bounds);
         }
 
-        StopWatch sw = new StopWatch();
-        sw.start();
         Response response = target.request().accept("application/json").get();
-        sw.stop();
-        LOGGER.info("took:" + sw.getTime() / 1000f + " " + target.toString());
-
         Status status = failIfResponseNotSuccessful(target, response);
 
         try {
             OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
             return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status, locale);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            logDeserializationError(target, status, e);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();

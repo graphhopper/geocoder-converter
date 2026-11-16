@@ -62,7 +62,7 @@ public class ConverterResourcePelias extends AbstractConverterResource {
             PeliasResponse peliasResponse = response.readEntity(PeliasResponse.class);
             return Converter.convertFromPelias(peliasResponse, status, locale);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            logDeserializationError(target, status, e);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();
