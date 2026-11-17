@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
+import org.glassfish.jersey.client.ClientProperties;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.client.Client;
@@ -82,7 +83,9 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
             target = target.queryParam("bounds", bounds);
         }
 
-        Response response = target.request().accept("application/json").get();
+        // OpenCage answers within 5s except during its incidents, when some requests hang: give up after 5s and
+        // let ProviderRetry try once more, which still fits dirigent's 12s
+        Response response = target.request().property(ClientProperties.READ_TIMEOUT, 5000).accept("application/json").get();
         Status status = failIfResponseNotSuccessful(target, response);
 
         try {

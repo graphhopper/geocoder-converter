@@ -3,7 +3,7 @@ package com.graphhopper.converter;
 import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.api.SpanExceptionRecorder;
-import com.graphhopper.converter.core.StaleConnectionRetry;
+import com.graphhopper.converter.core.ProviderRetry;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
 import io.dropwizard.core.Application;
@@ -18,6 +18,7 @@ import org.eclipse.jetty.server.handler.CrossOriginHandler;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.ws.rs.client.Client;
+import java.net.URI;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -51,23 +52,23 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
     public void run(ConverterConfiguration converterConfiguration, Environment environment) throws Exception {
 
         JerseyClientConfiguration cfg = converterConfiguration.getJerseyClientConfiguration();
-        // dirigent waits 12s for us. Keep 10s for the provider's answer (OpenCage has legitimate answers
-        // at 9-10s), but bound the connection setup: the TLS handshake timeout defaults to the connect
-        // timeout, so with 10s each a single provider call could run 20-30s, long after dirigent gave up.
-        // 2s still survives one lost SYN (retransmitted after 1s).
+        // dirigent waits 12s for us. Keep 10s for the provider's answer (gisgraphy has legitimate answers
+        // at 6-9s; OpenCage sets its own, shorter timeout per request), but bound the connection setup: the
+        // TLS handshake timeout defaults to the connect timeout, so with 10s each a single provider call could
+        // run 20-30s, long after dirigent gave up. 2s still survives one lost SYN (retransmitted after 1s).
         cfg.setTimeout(Duration.seconds(10));
         cfg.setConnectionTimeout(Duration.seconds(2));
         cfg.setConnectionRequestTimeout(Duration.seconds(1));
         // Dropwizard's default keepAlive of 0 closes the connection after every request, so every provider
         // call paid a full TCP+TLS handshake. Reuse connections, idle for less than common server keep-alive
         // timeouts (Apache httpd: 5s). Pooled connections are checked for staleness before reuse, but a provider
-        // can still close one just as we send on it, so such requests are repeated once (StaleConnectionRetry).
+        // can still close one just as we send on it, so such requests are repeated once (ProviderRetry).
         // Dropwizard's default of 0 retries ignores any retry strategy, hence setRetries(1).
         cfg.setKeepAlive(Duration.seconds(4));
         cfg.setRetries(1);
 
         final Client client = new JerseyClientBuilder(environment).using(cfg)
-                .using(new StaleConnectionRetry())
+                .using(new ProviderRetry(Set.of(URI.create(converterConfiguration.getOpenCageDataURL()).getHost())))
                 .build(getName());
 
         if (converterConfiguration.isWithCORS()) {
