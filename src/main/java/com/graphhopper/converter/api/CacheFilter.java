@@ -3,6 +3,7 @@ package com.graphhopper.converter.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import io.opentelemetry.api.trace.Span;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -42,6 +43,7 @@ public class CacheFilter implements ContainerRequestFilter, ContainerResponseFil
         if (!"GET".equals(requestContext.getMethod()))
             return;
         Entry entry = cache.getIfPresent(key(requestContext));
+        Span.current().setAttribute("cache.hit", entry != null);
         if (entry != null) {
             requestContext.setProperty(HIT, true);
             requestContext.abortWith(Response.ok(entry.body, entry.mediaType).build());
