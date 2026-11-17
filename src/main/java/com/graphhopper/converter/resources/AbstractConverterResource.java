@@ -92,6 +92,10 @@ abstract class AbstractConverterResource {
             LOGGER.error("There was an issue with the target " + redacted(target) + " the provider returned: " + status.code + " - " + status.message);
             if (status.code >= 500)
                 throw new WebApplicationException("The geocoding provider responded with an unexpected error: " + status.code + " - " + status.message, 500);
+            else if (status.code == 429)
+                // the provider rate-limits us: answer exactly like dirigent's own rate limiter for the provider
+                // (dirigent passes on status and message), not like an error in the customer's request
+                throw new WebApplicationException("Please retry later", 429);
             else
                 throw new BadRequestException("The geocoding provider responded with an error: " + status.code + " - " + status.message);
         }
