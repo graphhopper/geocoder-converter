@@ -3,6 +3,7 @@ package com.graphhopper.converter;
 import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.api.SpanExceptionRecorder;
+import com.graphhopper.converter.core.StaleConnectionRetry;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
 import io.dropwizard.core.Application;
@@ -59,10 +60,14 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         cfg.setConnectionRequestTimeout(Duration.seconds(1));
         // Dropwizard's default keepAlive of 0 closes the connection after every request, so every provider
         // call paid a full TCP+TLS handshake. Reuse connections, idle for less than common server keep-alive
-        // timeouts (Apache httpd: 5s). Pooled connections are checked for staleness before reuse.
+        // timeouts (Apache httpd: 5s). Pooled connections are checked for staleness before reuse, but a provider
+        // can still close one just as we send on it, so such requests are repeated once (StaleConnectionRetry).
+        // Dropwizard's default of 0 retries ignores any retry strategy, hence setRetries(1).
         cfg.setKeepAlive(Duration.seconds(4));
+        cfg.setRetries(1);
 
         final Client client = new JerseyClientBuilder(environment).using(cfg)
+                .using(new StaleConnectionRetry())
                 .build(getName());
 
         if (converterConfiguration.isWithCORS()) {
