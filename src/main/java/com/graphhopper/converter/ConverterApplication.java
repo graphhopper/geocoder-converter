@@ -2,6 +2,7 @@ package com.graphhopper.converter;
 
 import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
+import com.graphhopper.converter.api.SpanExceptionRecorder;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
 import io.dropwizard.core.Application;
@@ -73,6 +74,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         }
 
         environment.jersey().register(new CacheFilter());
+        environment.jersey().register(new SpanExceptionRecorder());
 
         if (converterConfiguration.isNominatim()) {
             final ConverterResourceNominatim resource = new ConverterResourceNominatim(

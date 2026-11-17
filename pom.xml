@@ -31,6 +31,12 @@
             <artifactId>dropwizard-testing</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
+        <!-- OTel API only: the javaagent supplies the SDK at runtime and bridges this. -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>1.67.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
