@@ -1,5 +1,6 @@
 package com.graphhopper.converter;
 
+import com.graphhopper.converter.api.CacheFilter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.api.SpanExceptionRecorder;
 import com.graphhopper.converter.health.NominatimHealthCheck;
@@ -73,6 +74,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         }
 
         environment.jersey().register(new SpanExceptionRecorder());
+        environment.jersey().register(new CacheFilter(environment.getObjectMapper(), 200_000_000L, 10));
 
         if (converterConfiguration.isNominatim()) {
             final ConverterResourceNominatim resource = new ConverterResourceNominatim(

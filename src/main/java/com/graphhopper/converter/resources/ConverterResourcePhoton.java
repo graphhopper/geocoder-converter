@@ -46,6 +46,9 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
                            @QueryParam("geometry") @DefaultValue("false") boolean geometry
     ) {
         limit = fixLimit(limit);
+        // a single geometry can be several MB
+        if (geometry)
+            limit = Math.min(limit, 5);
         checkInvalidParameter(reverse, query, point);
 
         if (query.length() > 300)
